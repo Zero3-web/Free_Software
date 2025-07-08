@@ -1,0 +1,34 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://softwaregratis.com/sitemap.xml
+
+# Optimization
+Crawl-delay: 1
+
+# Block unnecessary paths
+Disallow: /api/
+Disallow: /*.json
+Disallow: /admin/
+Disallow: /private/
+
+# Allow social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Block malicious bots
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /

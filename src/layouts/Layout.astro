@@ -1,22 +1,51 @@
+---
+import '../styles/global.css';
+import DonationButton from '../components/DonationButton';
+
+export interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { title = "Software Gratis - Descarga las mejores aplicaciones gratuitas", description = "Descarga software gratuito de calidad profesional. Adobe, Autodesk y más herramientas para crear sin límites." } = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="es" class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		
+		<!-- SEO Meta Tags -->
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="keywords" content="software gratis, descarga gratuita, Adobe, Autodesk, aplicaciones, herramientas profesionales" />
+		<meta name="robots" content="index, follow" />
+		<meta name="author" content="Software Gratis" />
+		
+		<!-- Open Graph Meta Tags -->
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:image" content="/og-image.jpg" />
+		<meta property="og:url" content={Astro.url} />
+		
+		<!-- Twitter Card Meta Tags -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content="/og-image.jpg" />
+		
+		<!-- Preconnect for Performance -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 	</head>
-	<body>
+	<body class="bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300">
 		<slot />
+		
+		<!-- Floating Donation Button -->
+		<DonationButton variant="floating" client:load />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

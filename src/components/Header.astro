@@ -1,0 +1,48 @@
+---
+import ThemeToggle from './ThemeToggle';
+import SearchBar from './SearchBar';
+import MobileMenu from './MobileMenu';
+import Logo from './Logo';
+import { products } from '../data/products';
+---
+
+<header class="sticky top-0 z-50 bg-[color:var(--bg-primary)]/80 backdrop-blur-md border-b border-[color:var(--border-primary)]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <div class="flex items-center space-x-2">
+        <Logo size="md" client:load />
+        <h1 class="text-xl font-bold text-gray-900 dark:text-white">
+          Software <span class="text-blue-500">Gratis</span>
+        </h1>
+      </div>
+
+      <!-- Search Bar (Hidden on mobile) -->
+      <div class="hidden md:flex flex-1 max-w-lg mx-8">
+        <SearchBar products={products} client:load />
+      </div>
+
+      <!-- Right side -->
+      <div class="flex items-center space-x-4">
+        <!-- Favorites (Hidden on mobile) -->
+        <button class="hidden sm:flex items-center space-x-1 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg>
+          <span class="text-sm font-medium">Favoritos</span>
+        </button>
+
+        <!-- Theme Toggle -->
+        <ThemeToggle client:load />
+
+        <!-- Mobile menu -->
+        <MobileMenu products={products} client:load />
+      </div>
+    </div>
+
+    <!-- Mobile Search Bar -->
+    <div class="md:hidden pb-4">
+      <SearchBar products={products} client:load />
+    </div>
+  </div>
+</header>
