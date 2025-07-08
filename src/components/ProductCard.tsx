@@ -1,17 +1,27 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Star, Heart, Download, Eye } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Star, Heart, Download, Eye, Shield, Zap, ExternalLink } from 'lucide-react';
 import type { Product } from '../data/products';
 import { useNotifications } from '../contexts/NotificationContext';
 import ProductBadge from './ProductBadge';
+import Button from './Button';
 
 interface ProductCardProps {
   product: Product;
+  className?: string;
+  showDescription?: boolean;
+  layout?: 'grid' | 'list';
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ 
+  product, 
+  className = '', 
+  showDescription = true,
+  layout = 'grid' 
+}: ProductCardProps) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const { showSuccess, showError } = useNotifications();
 
   const handleFavoriteToggle = (e: React.MouseEvent) => {
@@ -44,10 +54,20 @@ export default function ProductCard({ product }: ProductCardProps) {
             ? 'text-yellow-400 fill-current'
             : i < rating
             ? 'text-yellow-400 fill-current opacity-50'
-            : 'text-gray-300'
+            : 'text-gray-300 dark:text-gray-600'
         }`}
       />
     ));
+  };
+
+  const getBadgeColor = (type: string) => {
+    const colors = {
+      'free': 'bg-[var(--success-bg)] text-[var(--success)] border-[var(--success-border)]',
+      'freemium': 'bg-[var(--warning-bg)] text-[var(--warning)] border-[var(--warning-border)]',
+      'open-source': 'bg-[var(--info-bg)] text-[var(--info)] border-[var(--info-border)]',
+      'trial': 'bg-[var(--error-bg)] text-[var(--error)] border-[var(--error-border)]'
+    };
+    return colors[type as keyof typeof colors] || colors.free;
   };
 
   return (
@@ -56,7 +76,27 @@ export default function ProductCard({ product }: ProductCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       className="bg-[var(--bg-primary)] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
+      itemScope
+      itemType="https://schema.org/SoftwareApplication"
     >
+      {/* Schema.org microdata - hidden from visual but available to search engines */}
+      <meta itemProp="name" content={product.name} />
+      <meta itemProp="description" content={product.description} />
+      <meta itemProp="applicationCategory" content={product.category} />
+      <meta itemProp="operatingSystem" content={product.systemRequirements.os.join(', ')} />
+      <meta itemProp="softwareVersion" content={product.version} />
+      <meta itemProp="fileSize" content={product.size} />
+      <meta itemProp="downloadUrl" content={`https://software-gratis.com/software/${product.id}`} />
+      <div itemProp="aggregateRating" itemScope itemType="https://schema.org/AggregateRating" style={{ display: 'none' }}>
+        <meta itemProp="ratingValue" content={product.rating.toString()} />
+        <meta itemProp="bestRating" content="5" />
+        <meta itemProp="ratingCount" content={Math.floor(product.downloads / 10).toString()} />
+      </div>
+      <div itemProp="offers" itemScope itemType="https://schema.org/Offer" style={{ display: 'none' }}>
+        <meta itemProp="price" content="0" />
+        <meta itemProp="priceCurrency" content="EUR" />
+        <meta itemProp="availability" content="https://schema.org/InStock" />
+      </div>
       {/* Image Container */}
       <div className="relative aspect-video bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 overflow-hidden">
         {!imageLoaded && (

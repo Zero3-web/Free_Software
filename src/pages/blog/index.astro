@@ -1,0 +1,285 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import NewsletterSignup from '../../components/NewsletterSignup';
+
+const posts = [
+  {
+    id: 1,
+    title: 'Las Mejores Alternativas Gratuitas a Adobe Creative Suite',
+    excerpt: 'Descubre herramientas profesionales que pueden reemplazar completamente la suite de Adobe sin costo alguno.',
+    date: '2024-01-15',
+    category: 'Diseño',
+    image: '/blog/adobe-alternatives.jpg',
+    slug: 'alternativas-gratuitas-adobe-creative-suite',
+    author: 'Equipo Software Gratis',
+    readingTime: '10 min'
+  },
+  {
+    id: 2,
+    title: 'Herramientas Gratuitas de Desarrollo Web: Construye Sitios Profesionales Sin Costo',
+    excerpt: 'Descubre las mejores herramientas gratuitas para desarrollo web, desde editores de código hasta frameworks.',
+    date: '2024-12-20',
+    category: 'Desarrollo Web',
+    image: '/blog/web-development.jpg',
+    slug: 'herramientas-desarrollo-web-gratuitas',
+    author: 'Ana García',
+    readingTime: '10 min'
+  },
+  {
+    id: 3,
+    title: 'Las Mejores Alternativas Gratuitas a Microsoft Office',
+    excerpt: 'Explora las mejores suites ofimáticas gratuitas que pueden reemplazar perfectamente a Microsoft Office.',
+    date: '2024-12-15',
+    category: 'Productividad',
+    image: '/blog/office-alternatives.jpg',
+    slug: 'mejores-alternativas-microsoft-office',
+    author: 'Carlos Mendoza',
+    readingTime: '8 min'
+  },
+  {
+    id: 4,
+    title: 'Guía Completa: Migrar de AutoCAD a FreeCAD',
+    excerpt: 'Todo lo que necesitas saber para hacer la transición de AutoCAD a FreeCAD sin perder productividad.',
+    date: '2024-01-10',
+    category: 'CAD',
+    image: '/blog/autocad-freecad.jpg',
+    slug: 'guia-migrar-autocad-freecad',
+    author: 'Equipo Software Gratis',
+    readingTime: '8 min'
+  },
+  {
+    id: 5,
+    title: 'Top 10 Editores de Video Gratuitos para Profesionales',
+    excerpt: 'Los mejores editores de video gratuitos que compiten directamente con software de pago.',
+    date: '2024-01-05',
+    category: 'Video',
+    image: '/blog/video-editors.jpg',
+    slug: 'top-editores-video-gratuitos-profesionales',
+    author: 'Equipo Software Gratis',
+    readingTime: '12 min'
+  },
+  {
+    id: 6,
+    title: 'Cómo Configurar un Entorno de Desarrollo Completo y Gratuito',
+    excerpt: 'Desde IDEs hasta herramientas de deployment, crea tu entorno de desarrollo sin gastar un peso.',
+    date: '2024-01-01',
+    category: 'Desarrollo',
+    image: '/blog/dev-environment.jpg',
+    slug: 'configurar-entorno-desarrollo-completo-gratuito',
+    author: 'Equipo Software Gratis',
+    readingTime: '15 min'
+  }
+];
+
+const categories = [
+  { name: 'Todos', slug: 'todos', count: posts.length },
+  { name: 'Diseño', slug: 'diseno', count: posts.filter(p => p.category === 'Diseño').length },
+  { name: 'Video', slug: 'video', count: posts.filter(p => p.category === 'Video').length },
+  { name: 'CAD', slug: 'cad', count: posts.filter(p => p.category === 'CAD').length },
+  { name: 'Desarrollo', slug: 'desarrollo', count: posts.filter(p => p.category === 'Desarrollo').length }
+];
+
+// Schema.org structured data for blog
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "Blog - Software Gratis",
+  "description": "Artículos, guías y tutoriales sobre software gratuito, alternativas de código abierto y productividad digital.",
+  "url": "https://software-gratis.com/blog",
+  "author": {
+    "@type": "Organization",
+    "name": "Software Gratis"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Software Gratis",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://software-gratis.com/logo.png"
+    }
+  },
+  "blogPost": posts.map(post => ({
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.excerpt,
+    "url": `https://software-gratis.com/blog/${post.slug}`,
+    "datePublished": `${post.date}T10:00:00Z`,
+    "author": {
+      "@type": "Person",
+      "name": post.author
+    },
+    "articleSection": post.category
+  }))
+};
+---
+
+<Layout 
+  title="Blog - Software Gratis"
+  description="Artículos, guías y tutoriales sobre software gratuito, alternativas de código abierto y productividad digital."
+>
+  <!-- Blog Schema.org structured data -->
+  <script type="application/ld+json" set:html={JSON.stringify(blogSchema)}></script>
+  
+  <Header />
+  <main>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 py-20">
+      <div class="container-wide">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+            Nuestro <span class="text-gradient-animate">Blog</span>
+          </h1>
+          <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8">
+            Guías, tutoriales y las últimas novedades en software gratuito
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog Posts -->
+    <section class="page-section">
+      <div class="container-wide">
+        <div class="max-w-6xl mx-auto">
+          
+          <!-- Search and Filter -->
+          <div class="mb-12">
+            <div class="max-w-2xl mx-auto mb-8">
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                  </svg>
+                </div>
+                <input 
+                  type="text" 
+                  placeholder="Buscar artículos..." 
+                  class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+              </div>
+            </div>
+            
+            <!-- Categories -->
+            <div class="flex flex-wrap justify-center gap-2 mb-8">
+              {categories.map((category) => (
+                <button class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900 hover:border-blue-300 dark:hover:border-blue-600 hover:text-blue-600 dark:hover:text-blue-400">
+                  {category.name} ({category.count})
+                </button>
+              ))}
+            </div>
+          </div>
+          <!-- Featured Post -->
+          <div class="mb-16">
+            <article class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+              <div class="md:flex">
+                <div class="md:w-1/2">
+                  <div class="h-64 md:h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                    <div class="text-center text-white p-8">
+                      <h3 class="text-2xl font-bold mb-4">Artículo Destacado</h3>
+                      <p class="text-lg opacity-90">Las Mejores Alternativas Gratuitas a Adobe Creative Suite</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="md:w-1/2 p-8">
+                  <div class="mb-4">
+                    <span class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm font-medium rounded-full">
+                      Diseño
+                    </span>
+                  </div>
+                  <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                    Las Mejores Alternativas Gratuitas a Adobe Creative Suite
+                  </h2>
+                  <p class="text-gray-600 dark:text-gray-300 mb-6">
+                    Descubre herramientas profesionales que pueden reemplazar completamente la suite de Adobe sin costo alguno. Desde GIMP hasta Blender, te mostramos las mejores opciones disponibles.
+                  </p>
+                  <div class="flex items-center justify-between">
+                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                      <span>Por {posts[0].author}</span>
+                      <span class="mx-2">•</span>
+                      <span>{new Date(posts[0].date).toLocaleDateString('es-ES', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })}</span>
+                      <span class="mx-2">•</span>
+                      <span>{posts[0].readingTime}</span>
+                    </div>
+                    <a 
+                      href="/blog/alternativas-gratuitas-adobe-creative-suite" 
+                      class="text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                    >
+                      Leer más →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- Posts Grid -->
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {posts.slice(1).map((post) => (
+              <article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                <div class="h-48 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 flex items-center justify-center">
+                  <div class="text-center text-gray-600 dark:text-gray-300">
+                    <svg class="w-12 h-12 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                    </svg>
+                    <p class="text-sm">{post.category}</p>
+                  </div>
+                </div>
+                <div class="p-6">
+                  <div class="mb-3">
+                    <span class="inline-block px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-full">
+                      {post.category}
+                    </span>
+                  </div>
+                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                    {post.title}
+                  </h3>
+                  <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+                    {post.excerpt}
+                  </p>
+                  <div class="flex items-center justify-between">
+                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                      <span>Por {post.author}</span>
+                      <span class="mx-1">•</span>
+                      <span>{new Date(post.date).toLocaleDateString('es-ES', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })}</span>
+                      <span class="mx-1">•</span>
+                      <span>{post.readingTime}</span>
+                    </div>
+                    <a 
+                      href={`/blog/${post.slug}`} 
+                      class="text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                    >
+                      Leer más →
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="page-section">
+      <div class="container-wide">
+        <div class="max-w-4xl mx-auto">
+          <NewsletterSignup 
+            client:load
+            title="¡Mantente al día con las últimas novedades!"
+            description="Recibe artículos exclusivos, tips y las mejores alternativas de software gratuito directamente en tu email."
+          />
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

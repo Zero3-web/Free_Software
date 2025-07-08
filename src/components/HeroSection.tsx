@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Download, Star, Users, Shield } from 'lucide-react';
+import { Download, Star, Shield } from 'lucide-react';
 
 export default function HeroSection() {
   const fadeInUp = {
@@ -40,12 +40,7 @@ export default function HeroSection() {
     }
   };
 
-  const stats = [
-    { icon: Download, label: 'Descargas', value: '50M+' },
-    { icon: Star, label: 'Calificación', value: '4.8/5' },
-    { icon: Users, label: 'Usuarios', value: '2M+' },
-    { icon: Shield, label: 'Seguro', value: '100%' }
-  ];
+
 
   return (
     <section className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 py-20 overflow-hidden">
@@ -165,52 +160,63 @@ export default function HeroSection() {
             </motion.button>
           </motion.div>
 
-          {/* Enhanced Stats with advanced animations */}
+          {/* Características destacadas */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.2 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
           >
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 30, scale: 0.8 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ 
-                  duration: 0.6, 
-                  delay: 1.4 + index * 0.15,
-                  ease: "easeOut"
-                }}
-                whileHover={{ 
-                  y: -8,
-                  transition: { duration: 0.2 }
-                }}
-                className="text-center group cursor-pointer"
-              >
-                <motion.div 
-                  className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mb-3 group-hover:shadow-lg transition-shadow"
-                  whileHover={{ 
-                    rotate: [0, -10, 10, 0],
-                    scale: 1.1 
-                  }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <stat.icon className="w-6 h-6 text-white" />
-                </motion.div>
-                <motion.div 
-                  className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.4, delay: 1.6 + index * 0.15 }}
-                >
-                  {stat.value}
-                </motion.div>
-                <div className="text-sm text-gray-600 dark:text-gray-300">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.4 }}
+              className="text-center group"
+            >
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mb-4">
+                <Shield className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                100% Seguro
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Software verificado y libre de malware
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.6 }}
+              className="text-center group"
+            >
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg mb-4">
+                <Download className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                Descarga Directa
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Enlaces directos sin esperas ni publicidad
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.8 }}
+              className="text-center group"
+            >
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg mb-4">
+                <Star className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                Calidad Premium
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Solo el mejor software profesional
+              </p>
+            </motion.div>
           </motion.div>
         </motion.div>
       </div>

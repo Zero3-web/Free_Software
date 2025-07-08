@@ -7,24 +7,32 @@ export default function ThemeToggle() {
   useEffect(() => {
     // Check if user has a theme preference in localStorage
     const theme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
-    if (theme === 'dark' || (!theme && systemPrefersDark)) {
+    // Default to light mode unless explicitly set to dark
+    if (theme === 'dark') {
       setIsDark(true);
       document.documentElement.classList.add('dark');
+      document.body.classList.add('dark');
     } else {
       setIsDark(false);
       document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
+      // Set light as default if no preference exists
+      if (!theme) {
+        localStorage.setItem('theme', 'light');
+      }
     }
   }, []);
 
   const toggleTheme = () => {
     if (isDark) {
       document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
       localStorage.setItem('theme', 'light');
       setIsDark(false);
     } else {
       document.documentElement.classList.add('dark');
+      document.body.classList.add('dark');
       localStorage.setItem('theme', 'dark');
       setIsDark(true);
     }
@@ -39,7 +47,7 @@ export default function ThemeToggle() {
       {isDark ? (
         <Sun className="w-5 h-5 text-yellow-500" />
       ) : (
-        <Moon className="w-5 h-5 text-gray-600" />
+        <Moon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
       )}
     </button>
   );

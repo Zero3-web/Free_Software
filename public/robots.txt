@@ -2,18 +2,31 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://softwaregratis.com/sitemap.xml
+Sitemap: https://software-gratis.com/sitemap.xml
 
-# Optimization
-Crawl-delay: 1
-
-# Block unnecessary paths
+# Disallow certain paths
 Disallow: /api/
-Disallow: /*.json
+Disallow: /_astro/
 Disallow: /admin/
 Disallow: /private/
+Disallow: /*.json
 
-# Allow social media crawlers
+# Allow search engines to crawl important resources
+Allow: /assets/
+Allow: /images/
+Allow: /blog/
+Allow: /software/
+
+# Crawl-delay (optional)
+Crawl-delay: 1
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
 User-agent: facebookexternalhit
 Allow: /
 

@@ -21,9 +21,10 @@ const { title = "Software Gratis - Descarga las mejores aplicaciones gratuitas",
 		<!-- SEO Meta Tags -->
 		<title>{title}</title>
 		<meta name="description" content={description} />
-		<meta name="keywords" content="software gratis, descarga gratuita, Adobe, Autodesk, aplicaciones, herramientas profesionales" />
+		<meta name="keywords" content="software gratis, descarga gratuita, Adobe, Autodesk, aplicaciones, herramientas profesionales, programa libre, open source" />
 		<meta name="robots" content="index, follow" />
 		<meta name="author" content="Software Gratis" />
+		<link rel="canonical" href={Astro.url} />
 		
 		<!-- Open Graph Meta Tags -->
 		<meta property="og:title" content={title} />
@@ -31,21 +32,115 @@ const { title = "Software Gratis - Descarga las mejores aplicaciones gratuitas",
 		<meta property="og:type" content="website" />
 		<meta property="og:image" content="/og-image.jpg" />
 		<meta property="og:url" content={Astro.url} />
+		<meta property="og:site_name" content="Software Gratis" />
+		<meta property="og:locale" content="es_ES" />
 		
 		<!-- Twitter Card Meta Tags -->
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content="/og-image.jpg" />
+		<meta name="twitter:site" content="@SoftwareGratis" />
+		
+		<!-- Additional SEO -->
+		<meta name="theme-color" content="#3b82f6" />
+		<meta name="application-name" content="Software Gratis" />
+		<meta name="apple-mobile-web-app-title" content="Software Gratis" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+		
+		<!-- Structured Data -->
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "WebSite",
+			"name": "Software Gratis",
+			"description": "Descarga software gratuito de calidad profesional",
+			"url": "https://software-gratis.com",
+			"potentialAction": {
+				"@type": "SearchAction",
+				"target": "https://software-gratis.com/buscar?q={search_term_string}",
+				"query-input": "required name=search_term_string"
+			},
+			"publisher": {
+				"@type": "Organization",
+				"name": "Software Gratis",
+				"url": "https://software-gratis.com",
+				"logo": {
+					"@type": "ImageObject",
+					"url": "https://software-gratis.com/logo.png",
+					"width": 200,
+					"height": 60
+				},
+				"sameAs": [
+					"https://twitter.com/SoftwareGratis",
+					"https://facebook.com/SoftwareGratis"
+				]
+			}
+		}
+		</script>
+		
+		<!-- Organization Schema for About Us pages -->
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "Organization",
+			"name": "Software Gratis",
+			"description": "Plataforma dedicada a ofrecer las mejores alternativas de software gratuito y de código abierto",
+			"url": "https://software-gratis.com",
+			"logo": "https://software-gratis.com/logo.png",
+			"foundingDate": "2024",
+			"contactPoint": {
+				"@type": "ContactPoint",
+				"contactType": "customer service",
+				"email": "info@software-gratis.com"
+			},
+			"areaServed": "ES",
+			"knowsAbout": [
+				"Software libre",
+				"Código abierto", 
+				"Alternativas gratuitas",
+				"Herramientas de productividad",
+				"Software de diseño",
+				"Desarrollo de software"
+			]
+		}
+		</script>
 		
 		<!-- Preconnect for Performance -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		
+		<!-- Prefetch DNS for external resources -->
+		<link rel="dns-prefetch" href="//www.google-analytics.com" />
+		
+		<!-- Theme initialization script -->
+		<script>
+			// Initialize theme immediately to prevent flash
+			(function() {
+				const theme = localStorage.getItem('theme');
+				if (theme === 'dark') {
+					document.documentElement.classList.add('dark');
+					document.body.classList.add('dark');
+				} else {
+					document.documentElement.classList.remove('dark');
+					document.body.classList.remove('dark');
+					if (!theme) {
+						localStorage.setItem('theme', 'light');
+					}
+				}
+			})();
+		</script>
 	</head>
-	<body class="bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300">
+	<body class="bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300 min-h-screen">
 		<slot />
 		
 		<!-- Floating Donation Button -->
 		<DonationButton variant="floating" client:load />
+		
+		<!-- Skip to main content for accessibility -->
+		<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded-lg z-50">
+			Saltar al contenido principal
+		</a>
 	</body>
 </html>

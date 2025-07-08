@@ -3,11 +3,12 @@ import ThemeToggle from './ThemeToggle';
 import SearchBar from './SearchBar';
 import MobileMenu from './MobileMenu';
 import Logo from './Logo';
+import Navigation from './Navigation';
 import { products } from '../data/products';
 ---
 
 <header class="sticky top-0 z-50 bg-[color:var(--bg-primary)]/80 backdrop-blur-md border-b border-[color:var(--border-primary)]">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="container-wide">
     <div class="flex items-center justify-between h-16">
       <!-- Logo -->
       <div class="flex items-center space-x-2">
@@ -17,8 +18,13 @@ import { products } from '../data/products';
         </h1>
       </div>
 
+      <!-- Navigation Desktop -->
+      <div class="hidden lg:flex">
+        <Navigation client:load />
+      </div>
+
       <!-- Search Bar (Hidden on mobile) -->
-      <div class="hidden md:flex flex-1 max-w-lg mx-8">
+      <div class="hidden md:flex lg:hidden flex-1 max-w-lg mx-8">
         <SearchBar products={products} client:load />
       </div>
 

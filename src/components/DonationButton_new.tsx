@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, X } from 'lucide-react';
 import { SiKofi, SiPaypal, SiPatreon } from 'react-icons/si';
 import { MdCoffee } from 'react-icons/md';
+import { useNotifications } from '../contexts/NotificationContext';
 
 interface DonationButtonProps {
   variant?: 'floating' | 'inline' | 'footer';
@@ -43,7 +44,7 @@ const donationPlatforms = [
 
 export default function DonationButton({ variant = 'floating', size = 'md', className = '' }: DonationButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [showThankYou, setShowThankYou] = useState(false);
+  const { showSuccess } = useNotifications();
 
   const sizeClasses = {
     sm: 'p-2 text-sm',
@@ -66,8 +67,7 @@ export default function DonationButton({ variant = 'floating', size = 'md', clas
   const handleDonation = (platform: typeof donationPlatforms[0]) => {
     window.open(platform.url, '_blank');
     setIsOpen(false);
-    setShowThankYou(true);
-    setTimeout(() => setShowThankYou(false), 3000);
+    showSuccess(`¡Gracias por considerar apoyarnos a través de ${platform.name}!`);
   };
 
   if (variant === 'floating') {
@@ -88,20 +88,6 @@ export default function DonationButton({ variant = 'floating', size = 'md', clas
         >
           <Heart className={`${iconSizes[size]} animate-pulse`} />
         </motion.button>
-
-        {/* Thank You Notification */}
-        <AnimatePresence>
-          {showThankYou && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="absolute bottom-full right-0 mb-4 bg-green-500 text-white p-3 rounded-lg shadow-lg"
-            >
-              <p className="text-sm font-medium">¡Gracias por tu apoyo! 💝</p>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         {/* Donation Panel */}
         <AnimatePresence>
