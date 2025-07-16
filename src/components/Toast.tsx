@@ -1,4 +1,3 @@
-import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, X, Heart } from 'lucide-react';
 import { useEffect } from 'react';
 
@@ -45,54 +44,46 @@ export default function Toast({
   const getBackgroundColor = () => {
     switch (type) {
       case 'success':
-        return 'bg-white dark:bg-gray-800 border-l-4 border-green-500';
+        return 'bg-white border-green-200';
       case 'error':
-        return 'bg-white dark:bg-gray-800 border-l-4 border-red-500';
+        return 'bg-white border-red-200';
       case 'info':
-        return 'bg-white dark:bg-gray-800 border-l-4 border-blue-500';
+        return 'bg-white border-blue-200';
       default:
-        return 'bg-white dark:bg-gray-800 border-l-4 border-green-500';
+        return 'bg-white border-gray-200';
     }
   };
 
+  if (!isVisible) return null;
+
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ opacity: 0, y: -50, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -50, scale: 0.95 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="fixed top-4 right-4 z-50 max-w-sm"
-        >
-          <div className={`${getBackgroundColor()} rounded-lg shadow-lg p-4`}>
-            <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0">
-                {getIcon()}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                  {title}
-                </p>
-                {message && (
-                  <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                    {message}
-                  </p>
-                )}
-              </div>
-              <div className="flex-shrink-0">
-                <button
-                  onClick={onClose}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
-                  aria-label="Cerrar notificación"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
+    <div className="fixed top-4 right-4 z-50 max-w-sm">
+      <div className={`${getBackgroundColor()} rounded-lg shadow-lg p-4 border transition-all duration-300`}>
+        <div className="flex items-start space-x-3">
+          <div className="flex-shrink-0">
+            {getIcon()}
           </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-gray-900">
+              {title}
+            </p>
+            {message && (
+              <p className="text-sm text-gray-600">
+                {message}
+              </p>
+            )}
+          </div>
+          <div className="flex-shrink-0">
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 transition-colors"
+              aria-label="Cerrar notificación"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

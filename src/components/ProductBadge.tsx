@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Crown, Zap, Star, Sparkles } from 'lucide-react';
 
 interface ProductBadgeProps {
@@ -41,17 +40,14 @@ export default function ProductBadge({ badge, index = 0 }: ProductBadgeProps) {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8, y: -10 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.3 }}
+    <div
       className={`
         inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-semibold
-        ${config.color} shadow-lg backdrop-blur-sm
+        ${config.color} shadow-lg backdrop-blur-sm transition-all duration-300
       `}
     >
       {config.icon}
       <span>{config.label}</span>
-    </motion.div>
+    </div>
   );
 }

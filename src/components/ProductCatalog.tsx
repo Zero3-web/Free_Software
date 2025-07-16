@@ -1,158 +1,65 @@
 import { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
 import ProductGrid from './ProductGrid';
-import FilterPanel, { type FilterState } from './FilterPanel';
-import SearchBar from './SearchBar';
-import Pagination from './Pagination';
+import LoadingSpinner from './LoadingSpinner';
 import { type Product } from '../data/products';
 
 interface ProductCatalogProps {
   products: Product[];
 }
 
-const PRODUCTS_PER_PAGE = 12;
+const INITIAL_PRODUCTS = 6;
+const PRODUCTS_PER_LOAD = 12;
 
 export default function ProductCatalog({ products }: ProductCatalogProps) {
-  const [filters, setFilters] = useState<FilterState>({
-    category: '',
-    company: '',
-    rating: 0,
-    sortBy: 'downloads',
-    searchTerm: ''
-  });
-  
-  const [currentPage, setCurrentPage] = useState(1);
+  const [displayedCount, setDisplayedCount] = useState(INITIAL_PRODUCTS);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Extraer categorías y empresas únicas
-  const categories = useMemo(() => {
-    const uniqueCategories = [...new Set(products.map(p => p.category))];
-    return uniqueCategories.sort();
-  }, [products]);
+  // Productos a mostrar
+  const displayedProducts = useMemo(() => {
+    return products.slice(0, displayedCount);
+  }, [products, displayedCount]);
 
-  const companies = useMemo(() => {
-    const uniqueCompanies = [...new Set(products.map(p => p.company))];
-    return uniqueCompanies.sort();
-  }, [products]);
+  const hasMoreProducts = displayedCount < products.length;
 
-  // Filtrar y ordenar productos
-  const filteredProducts = useMemo(() => {
-    let filtered = products.filter(product => {
-      // Filtro por término de búsqueda
-      if (filters.searchTerm && !product.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) &&
-          !product.description.toLowerCase().includes(filters.searchTerm.toLowerCase()) &&
-          !product.category.toLowerCase().includes(filters.searchTerm.toLowerCase())) {
-        return false;
-      }
-
-      // Filtro por categoría
-      if (filters.category && product.category !== filters.category) {
-        return false;
-      }
-
-      // Filtro por empresa
-      if (filters.company && product.company !== filters.company) {
-        return false;
-      }
-
-      // Filtro por rating
-      if (filters.rating > 0 && product.rating < filters.rating) {
-        return false;
-      }
-
-      return true;
-    });
-
-    // Ordenar productos
-    filtered.sort((a, b) => {
-      switch (filters.sortBy) {
-        case 'rating':
-          return b.rating - a.rating;
-        case 'releaseDate':
-          return new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime();
-        case 'name':
-          return a.name.localeCompare(b.name);
-        case 'downloads':
-        default:
-          return b.downloads - a.downloads;
-      }
-    });
-
-    return filtered;
-  }, [products, filters]);
-
-  // Paginación
-  const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
-  const paginatedProducts = useMemo(() => {
-    const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
-    return filteredProducts.slice(startIndex, startIndex + PRODUCTS_PER_PAGE);
-  }, [filteredProducts, currentPage]);
-
-  // Resetear página cuando cambien los filtros
-  const handleFilterChange = (newFilters: FilterState) => {
-    setFilters(newFilters);
-    setCurrentPage(1);
+  const loadMore = async () => {
+    setIsLoading(true);
+    
+    // Simulate loading time for better UX
+    await new Promise(resolve => setTimeout(resolve, 1400));
+    
+    setDisplayedCount(prev => Math.min(prev + PRODUCTS_PER_LOAD, products.length));
+    setIsLoading(false);
   };
 
-  const handleSearch = (searchTerm: string) => {
-    setFilters(prev => ({ ...prev, searchTerm }));
-    setCurrentPage(1);
-  };
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Barra de búsqueda */}
-      <div className="mb-8">
-        <SearchBar onSearch={handleSearch} />
-      </div>
-
-      {/* Panel de filtros */}
-      <FilterPanel
-        filters={filters}
-        onFilterChange={handleFilterChange}
-        categories={categories}
-        companies={companies}
-      />
-
+    <div id="products-section" className="container mx-auto px-4 py-8">
       {/* Resultados */}
       <div className="mb-6">
         <div className="flex items-center justify-between">
-          <p className="text-[var(--text-secondary)]">
-            Mostrando {paginatedProducts.length} de {filteredProducts.length} productos
+          <p className="text-gray-600">
+            Showing {displayedProducts.length} of {products.length} products
           </p>
-          
-          {filteredProducts.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center py-12"
-            >
-              <p className="text-xl text-[var(--text-secondary)] mb-2">
-                No se encontraron productos
-              </p>
-              <p className="text-[var(--text-muted)]">
-                Prueba ajustando los filtros o términos de búsqueda
-              </p>
-            </motion.div>
-          )}
         </div>
       </div>
 
       {/* Grid de productos */}
-      {filteredProducts.length > 0 && (
-        <>
-          <ProductGrid products={paginatedProducts} />
-          
-          {/* Paginación */}
-          {totalPages > 1 && (
-            <div className="mt-12">
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={setCurrentPage}
-              />
-            </div>
-          )}
-        </>
+      <ProductGrid products={displayedProducts} />
+      
+      {/* Load More Button */}
+      {hasMoreProducts && (
+        <div className="mt-12 text-center">
+          <button
+            onClick={loadMore}
+            disabled={isLoading}
+            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-4 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Ver Más Software
+          </button>
+        </div>
       )}
     </div>
   );

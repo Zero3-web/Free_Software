@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Monitor, Paintbrush, Video, FileText, Code, Zap, Calculator, Shield } from 'lucide-react';
+import LoadingWrapper from './LoadingWrapper';
 
 interface DropdownItem {
   label: string;
@@ -15,55 +15,55 @@ interface NavigationProps {
 
 const softwareCategories: DropdownItem[] = [
   {
-    label: 'Productividad',
+    label: 'Productivity',
     href: '/software/productividad',
     icon: FileText,
-    description: 'Herramientas para trabajo y oficina'
+    description: 'Office and work tools'
   },
   {
-    label: 'Diseño Gráfico',
+    label: 'Graphic Design',
     href: '/software/diseno',
     icon: Paintbrush,
-    description: 'Software para crear y editar imágenes'
+    description: 'Software for creating and editing images'
   },
   {
-    label: 'Edición de Video',
+    label: 'Video Editing',
     href: '/software/video',
     icon: Video,
-    description: 'Editores profesionales de video'
+    description: 'Professional video editors'
   },
   {
-    label: 'Desarrollo',
+    label: 'Development',
     href: '/software/desarrollo',
     icon: Code,
-    description: 'IDEs y herramientas de programación'
+    description: 'IDEs and programming tools'
   },
   {
-    label: 'Utilidades',
+    label: 'Utilities',
     href: '/software/utilidades',
     icon: Zap,
-    description: 'Herramientas del sistema y optimización'
+    description: 'System tools and optimization'
   },
   {
-    label: 'Seguridad',
+    label: 'Security',
     href: '/software/seguridad',
     icon: Shield,
-    description: 'Antivirus y protección digital'
+    description: 'Antivirus and digital protection'
   }
 ];
 
 const herramientasItems: DropdownItem[] = [
   {
-    label: 'Convertidor de Archivos',
+    label: 'File Converter',
     href: '/herramientas/convertidor',
     icon: Monitor,
-    description: 'Convierte entre diferentes formatos'
+    description: 'Convert between different formats'
   },
   {
-    label: 'Compresión',
+    label: 'Compression',
     href: '/herramientas/compresion',
     icon: Calculator,
-    description: 'Comprime y descomprime archivos'
+    description: 'Compress and decompress files'
   }
 ];
 
@@ -74,7 +74,7 @@ export default function Navigation({ className = '' }: NavigationProps) {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 1024); // Changed to lg breakpoint
     };
     
     checkMobile();
@@ -105,57 +105,52 @@ export default function Navigation({ className = '' }: NavigationProps) {
     }
   };
 
-  const DropdownMenu = ({ items, isActive }: { items: DropdownItem[]; isActive: boolean }) => (
-    <AnimatePresence>
-      {isActive && (
-        <motion.div
-          initial={{ opacity: 0, y: -10, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -10, scale: 0.95 }}
-          transition={{ duration: 0.2 }}
-          className="absolute top-full left-0 mt-2 w-80 bg-[var(--bg-primary)] border border-[var(--border-primary)] rounded-xl shadow-xl z-50"
-          onMouseEnter={() => !isMobile && handleMouseEnter(activeDropdown!)}
-          onMouseLeave={handleMouseLeave}
-        >
-          <div className="p-2">
-            {items.map((item) => {
-              const IconComponent = item.icon;
-              return (
-                <motion.a
-                  key={item.href}
-                  href={item.href}
-                  className="flex items-start space-x-3 p-3 rounded-lg hover:bg-[var(--bg-secondary)] transition-colors group"
-                  whileHover={{ x: 4 }}
-                  onClick={() => setActiveDropdown(null)}
-                >
-                  <div className="flex-shrink-0 w-10 h-10 bg-[var(--accent-primary)] bg-opacity-10 rounded-lg flex items-center justify-center">
-                    <IconComponent className="w-5 h-5 text-[var(--accent-primary)]" {...{}} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors">
-                      {item.label}
-                    </p>
-                    <p className="text-xs text-[var(--text-secondary)] mt-1">
-                      {item.description}
-                    </p>
-                  </div>
-                </motion.a>
-              );
-            })}
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
+  const DropdownMenu = ({ items, isActive }: { items: DropdownItem[]; isActive: boolean }) => {
+    if (!isActive) return null;
+    
+    return (
+      <div
+        className="absolute top-full left-0 mt-2 w-80 bg-white border border-gray-200 rounded-xl shadow-xl z-50"
+        onMouseEnter={() => !isMobile && handleMouseEnter(activeDropdown!)}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div className="p-2">
+          {items.map((item) => {
+            const IconComponent = item.icon;
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-all duration-300 group cursor-pointer hover:scale-105"
+                onClick={() => setActiveDropdown(null)}
+              >
+                <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-all duration-300">
+                  <IconComponent className="w-5 h-5 text-blue-600 group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 group-hover:text-blue-600 transition-all duration-300">
+                    {item.label}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1 group-hover:text-gray-700 transition-colors duration-300">
+                    {item.description}
+                  </p>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
 
   return (
-    <nav className={`hidden md:flex items-center space-x-8 ${className}`}>
-      {/* Inicio */}
+    <nav className={`hidden md:flex items-center gap-10 px-2 ${className}`}>
+      {/* Home */}
       <a
         href="/"
-        className="text-[var(--text-primary)] hover:text-[var(--accent-primary)] font-medium transition-colors"
+        className="text-gray-900 hover:text-blue-600 font-semibold text-base px-4 py-2 rounded-lg transition-all duration-300 focus:outline-none focus:bg-gray-100 cursor-pointer hover:scale-105"
       >
-        Inicio
+        Home
       </a>
 
       {/* Software Dropdown */}
@@ -165,56 +160,40 @@ export default function Navigation({ className = '' }: NavigationProps) {
         onMouseLeave={handleMouseLeave}
       >
         <button
-          className="flex items-center space-x-1 text-[var(--text-primary)] hover:text-[var(--accent-primary)] font-medium transition-colors"
+          className="flex items-center gap-1 text-gray-900 hover:text-blue-600 font-semibold text-base px-4 py-2 rounded-lg transition-all duration-300 focus:outline-none focus:bg-gray-100 cursor-pointer hover:scale-105"
           onClick={() => handleClick('software')}
         >
           <span>Software</span>
-          <motion.div
-            animate={{ rotate: activeDropdown === 'software' ? 180 : 0 }}
-            transition={{ duration: 0.2 }}
-          >
+          <div className={`transform transition-transform duration-300 ${activeDropdown === 'software' ? 'rotate-180' : ''}`}>
             <ChevronDown className="w-4 h-4" />
-          </motion.div>
+          </div>
         </button>
         <DropdownMenu items={softwareCategories} isActive={activeDropdown === 'software'} />
       </div>
 
-      {/* Herramientas Dropdown */}
-      <div
-        className="relative"
-        onMouseEnter={() => handleMouseEnter('herramientas')}
-        onMouseLeave={handleMouseLeave}
+      {/* Tools */}
+      <a
+        href="/herramientas"
+        className="text-gray-900 hover:text-blue-600 font-semibold text-base px-4 py-2 rounded-lg transition-all duration-300 focus:outline-none focus:bg-gray-100 cursor-pointer hover:scale-105"
       >
-        <button
-          className="flex items-center space-x-1 text-[var(--text-primary)] hover:text-[var(--accent-primary)] font-medium transition-colors"
-          onClick={() => handleClick('herramientas')}
-        >
-          <span>Herramientas</span>
-          <motion.div
-            animate={{ rotate: activeDropdown === 'herramientas' ? 180 : 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            <ChevronDown className="w-4 h-4" />
-          </motion.div>
-        </button>
-        <DropdownMenu items={herramientasItems} isActive={activeDropdown === 'herramientas'} />
-      </div>
+        Tools
+      </a>
 
       {/* Blog */}
-      <a
+      <LoadingWrapper
         href="/blog"
-        className="text-[var(--text-primary)] hover:text-[var(--accent-primary)] font-medium transition-colors"
+        className="text-gray-900 hover:text-blue-600 font-semibold text-base px-4 py-2 rounded-lg transition-all duration-300 focus:outline-none focus:bg-gray-100 cursor-pointer hover:scale-105"
       >
         Blog
-      </a>
+      </LoadingWrapper>
 
-      {/* Sobre Nosotros */}
-      <a
+      {/* About Us */}
+      <LoadingWrapper
         href="/sobre-nosotros"
-        className="text-[var(--text-primary)] hover:text-[var(--accent-primary)] font-medium transition-colors"
+        className="text-gray-900 hover:text-blue-600 font-semibold text-base px-4 py-2 rounded-lg transition-all duration-300 focus:outline-none focus:bg-gray-100 cursor-pointer hover:scale-105"
       >
-        Sobre Nosotros
-      </a>
+        About Us
+      </LoadingWrapper>
     </nav>
   );
 }

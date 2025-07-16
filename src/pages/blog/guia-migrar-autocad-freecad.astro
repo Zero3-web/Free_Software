@@ -113,7 +113,7 @@ const articleSchema = {
   }
   </script>
   
-  <Header />
+  <Header slot="header" />
   
   <!-- Breadcrumbs -->
   <Breadcrumbs 
@@ -122,27 +122,27 @@ const articleSchema = {
       { label: 'Blog', href: '/blog' },
       { label: article.title }
     ]}
-    className="container-wide py-4"
+    class="container-wide py-4"
     client:load
   />
 
   <main id="main-content">
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 py-20">
+    <section class="bg-gradient-to-br from-green-50 via-white to-blue-50">
       <div class="container-wide">
         <div class="max-w-4xl mx-auto text-center">
           <div class="mb-6">
-            <span class="inline-block px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm font-medium rounded-full">
+            <span class="inline-block px-3 py-1 bg-green-100">
               {article.category}
             </span>
           </div>
-          <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+          <h1 class="text-4xl md:text-6xl font-bold text-gray-900">
             Guía Completa: <span class="text-gradient-animate">Migrar de AutoCAD a FreeCAD</span>
           </h1>
-          <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
+          <p class="text-xl text-gray-600">
             {article.description}
           </p>
-          <div class="flex items-center justify-center space-x-6 text-sm text-gray-500 dark:text-gray-400">
+          <div class="flex items-center justify-center space-x-6 text-sm text-gray-500">
             <div class="flex items-center space-x-2">
               <div class="w-8 h-8 bg-gradient-to-br from-green-500 to-blue-600 rounded-full flex items-center justify-center">
                 <span class="text-white text-xs font-bold">SG</span>
@@ -166,20 +166,20 @@ const articleSchema = {
     <article class="page-section">
       <div class="container-wide">
         <div class="max-w-4xl mx-auto">
-          <div class="prose prose-lg dark:prose-invert max-w-none">
-            <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
+          <div class="prose prose-lg">
+            <p class="text-xl text-gray-600">
               AutoCAD ha sido durante décadas la herramienta estándar para el diseño asistido por computadora (CAD). Sin embargo, sus elevados costos de licencia han llevado a muchos profesionales y empresas a buscar alternativas. FreeCAD emerge como una opción sólida y completamente gratuita que puede manejar la mayoría de tareas que realizas en AutoCAD.
             </p>
 
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 mt-12">
+            <h2 class="text-3xl font-bold text-gray-900">
               ¿Por qué migrar a FreeCAD?
             </h2>
 
-            <div class="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-l-4 border-green-400 p-6 mb-8">
-              <h3 class="text-lg font-semibold text-green-800 dark:text-green-200 mb-4">
+            <div class="bg-gradient-to-r from-green-50 to-blue-50">
+              <h3 class="text-lg font-semibold text-green-800">
                 💰 Ventajas económicas
               </h3>
-              <ul class="text-green-700 dark:text-green-300 space-y-2">
+              <ul class="text-green-700">
                 <li>• Completamente gratuito - sin costos de licencia</li>
                 <li>• Código abierto - transparente y auditable</li>
                 <li>• Sin restricciones de tiempo o funcionalidad</li>
@@ -187,83 +187,83 @@ const articleSchema = {
               </ul>
             </div>
 
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 mt-12">
+            <h2 class="text-3xl font-bold text-gray-900">
               Preparación para la migración
             </h2>
 
             <div class="grid md:grid-cols-2 gap-6 mb-8">
-              <div class="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-                <h4 class="font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-                  <span class="w-8 h-8 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center text-sm font-bold mr-3">1</span>
+              <div class="bg-white">
+                <h4 class="font-semibold text-gray-900">
+                  <span class="w-8 h-8 bg-blue-100">1</span>
                   Auditoría de archivos
                 </h4>
-                <p class="text-sm text-gray-600 dark:text-gray-300">
+                <p class="text-sm text-gray-600">
                   Identifica qué archivos DWG necesitarás migrar y qué funcionalidades específicas utilizas más frecuentemente.
                 </p>
               </div>
 
-              <div class="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-                <h4 class="font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-                  <span class="w-8 h-8 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center text-sm font-bold mr-3">2</span>
+              <div class="bg-white">
+                <h4 class="font-semibold text-gray-900">
+                  <span class="w-8 h-8 bg-green-100">2</span>
                   Formación del equipo
                 </h4>
-                <p class="text-sm text-gray-600 dark:text-gray-300">
+                <p class="text-sm text-gray-600">
                   Programa sesiones de training para tu equipo. FreeCAD tiene un enfoque diferente pero igualmente potente.
                 </p>
               </div>
             </div>
 
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 mt-12">
+            <h2 class="text-3xl font-bold text-gray-900">
               Diferencias clave entre AutoCAD y FreeCAD
             </h2>
 
             <div class="overflow-x-auto mb-8">
-              <table class="w-full border-collapse border border-gray-300 dark:border-gray-700">
-                <thead class="bg-gray-50 dark:bg-gray-800">
+              <table class="w-full border-collapse border border-gray-300">
+                <thead class="bg-gray-50">
                   <tr>
-                    <th class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left font-semibold text-gray-900 dark:text-white">Aspecto</th>
-                    <th class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left font-semibold text-gray-900 dark:text-white">AutoCAD</th>
-                    <th class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left font-semibold text-gray-900 dark:text-white">FreeCAD</th>
+                    <th class="border border-gray-300">Aspecto</th>
+                    <th class="border border-gray-300">AutoCAD</th>
+                    <th class="border border-gray-300">FreeCAD</th>
                   </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-gray-800">
+                <tbody class="bg-white">
                   <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 font-medium text-gray-900 dark:text-white">Interfaz</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-600 dark:text-gray-300">Ribbon, línea de comandos</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-600 dark:text-gray-300">Workbenches modulares</td>
+                    <td class="border border-gray-300">Interfaz</td>
+                    <td class="border border-gray-300">Ribbon, línea de comandos</td>
+                    <td class="border border-gray-300">Workbenches modulares</td>
                   </tr>
-                  <tr class="bg-gray-50 dark:bg-gray-700">
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 font-medium text-gray-900 dark:text-white">Modelado 3D</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-600 dark:text-gray-300">Básico a intermedio</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-600 dark:text-gray-300">Avanzado, paramétrico</td>
+                  <tr class="bg-gray-50">
+                    <td class="border border-gray-300">Modelado 3D</td>
+                    <td class="border border-gray-300">Básico a intermedio</td>
+                    <td class="border border-gray-300">Avanzado, paramétrico</td>
                   </tr>
                   <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 font-medium text-gray-900 dark:text-white">Scripting</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-600 dark:text-gray-300">AutoLISP, VBA</td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-600 dark:text-gray-300">Python integrado</td>
+                    <td class="border border-gray-300">Scripting</td>
+                    <td class="border border-gray-300">AutoLISP, VBA</td>
+                    <td class="border border-gray-300">Python integrado</td>
                   </tr>
                 </tbody>
               </table>
             </div>
 
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 mt-12">
+            <h2 class="text-3xl font-bold text-gray-900">
               Flujo de trabajo paso a paso
             </h2>
 
             <div class="space-y-6 mb-8">
-              <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+              <div class="bg-white">
                 <div class="flex items-start space-x-4">
                   <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center flex-shrink-0">
                     <span class="text-white text-lg font-bold">1</span>
                   </div>
                   <div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Instalación y configuración</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                    <h3 class="text-xl font-bold text-gray-900">Instalación y configuración</h3>
+                    <p class="text-gray-600">
                       Descarga FreeCAD desde su sitio oficial y configura las preferencias básicas según tu flujo de trabajo habitual.
                     </p>
-                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                      <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Configuraciones recomendadas:</h4>
-                      <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1">
+                    <div class="bg-gray-50">
+                      <h4 class="font-semibold text-gray-900">Configuraciones recomendadas:</h4>
+                      <ul class="text-sm text-gray-600">
                         <li>• Activar snap y grid por defecto</li>
                         <li>• Configurar unidades según tu región</li>
                         <li>• Personalizar atajos de teclado</li>
@@ -273,19 +273,19 @@ const articleSchema = {
                 </div>
               </div>
 
-              <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+              <div class="bg-white">
                 <div class="flex items-start space-x-4">
                   <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
                     <span class="text-white text-lg font-bold">2</span>
                   </div>
                   <div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Conversión de archivos</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                    <h3 class="text-xl font-bold text-gray-900">Conversión de archivos</h3>
+                    <p class="text-gray-600">
                       FreeCAD puede importar archivos DWG, aunque con algunas limitaciones. Para mejores resultados, considera usar DXF como formato intermedio.
                     </p>
-                    <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 p-4 rounded-lg">
-                      <h4 class="font-semibold text-yellow-800 dark:text-yellow-200 mb-2">⚠️ Nota importante:</h4>
-                      <p class="text-sm text-yellow-700 dark:text-yellow-300">
+                    <div class="bg-yellow-50">
+                      <h4 class="font-semibold text-yellow-800">⚠️ Nota importante:</h4>
+                      <p class="text-sm text-yellow-700">
                         Los archivos complejos pueden requerir ajustes manuales después de la importación.
                       </p>
                     </div>
@@ -309,16 +309,16 @@ const articleSchema = {
           </div>
 
           <!-- Author Info -->
-          <div class="max-w-4xl mx-auto mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+          <div class="max-w-4xl mx-auto mt-12 pt-8 border-t border-gray-200">
             <div class="flex items-center space-x-4">
               <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-blue-600 rounded-full flex items-center justify-center">
                 <span class="text-white text-xl font-bold">SG</span>
               </div>
               <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                <h3 class="text-lg font-semibold text-gray-900">
                   {article.author.name}
                 </h3>
-                <p class="text-gray-600 dark:text-gray-300 text-sm">
+                <p class="text-gray-600">
                   Publicado el {new Date(article.publishedDate).toLocaleDateString('es-ES', { 
                     year: 'numeric', 
                     month: 'long', 
@@ -327,7 +327,7 @@ const articleSchema = {
                 </p>
                 <div class="flex flex-wrap gap-2 mt-2">
                   {article.tags.map(tag => (
-                    <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">
+                    <span class="px-2 py-1 bg-gray-100">
                       {tag}
                     </span>
                   ))}
@@ -340,17 +340,17 @@ const articleSchema = {
     </article>
 
     <!-- Related Articles -->
-    <section class="page-section bg-gray-50 dark:bg-gray-900">
+    <section class="page-section bg-gray-50">
       <div class="container-wide">
         <div class="max-w-6xl mx-auto">
-          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+          <h2 class="text-3xl font-bold text-gray-900">
             Artículos Relacionados
           </h2>
           <div class="grid md:grid-cols-3 gap-8">
             {relatedArticles.map((relatedArticle, index) => (
-              <article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                <div class="h-48 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 flex items-center justify-center">
-                  <div class="text-center text-gray-600 dark:text-gray-300">
+              <article class="bg-white">
+                <div class="h-48 bg-gradient-to-br from-gray-200 to-gray-300">
+                  <div class="text-center text-gray-600">
                     <svg class="w-12 h-12 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
                     </svg>
@@ -359,19 +359,19 @@ const articleSchema = {
                 </div>
                 <div class="p-6">
                   <div class="mb-3">
-                    <span class="inline-block px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-full">
+                    <span class="inline-block px-3 py-1 bg-gray-100">
                       {relatedArticle.category}
                     </span>
                   </div>
-                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                  <h3 class="text-xl font-bold text-gray-900">
                     {relatedArticle.title}
                   </h3>
-                  <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+                  <p class="text-gray-600">
                     {relatedArticle.excerpt}
                   </p>
                   <a 
                     href={`/blog/${relatedArticle.slug}`}
-                    class="text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                    class="text-blue-600"
                   >
                     Leer más →
                   </a>

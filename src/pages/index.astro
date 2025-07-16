@@ -7,8 +7,12 @@ import Footer from '../components/Footer.astro';
 import { products } from '../data/products';
 ---
 
-<Layout title="Software Gratis - Descarga las mejores aplicaciones gratuitas">
-	<Header />
+<Layout 
+	title="Download Free Software - Best Free Programs 2024"
+	description="Download the best free software and open source programs. Adobe alternatives, Office suites, and more premium applications for free. Safe downloads."
+	keywords="free software, free programs, download free, adobe alternatives, free office, photoshop alternatives"
+>
+	<Header slot="header" />
 	<main id="main-content">
 		<HeroSection client:load />
 		<NotificationRoot products={products} page="grid" client:load />

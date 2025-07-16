@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 
 interface ButtonProps {
@@ -99,12 +98,7 @@ export default function Button({
     <>
       {/* Shimmer effect for primary buttons */}
       {variant === 'primary' && (
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"
-          initial={{ x: '-100%' }}
-          animate={{ x: '100%' }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: 'linear' }}
-        />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
       )}
       
       {/* Loading spinner */}
@@ -131,29 +125,25 @@ export default function Button({
 
   if (href) {
     return (
-      <motion.a
+      <a
         href={href}
-        className={buttonClasses}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        className={`${buttonClasses} hover:scale-105 transform transition-all duration-200`}
         aria-label={ariaLabel}
       >
         {buttonContent}
-      </motion.a>
+      </a>
     );
   }
 
   return (
-    <motion.button
+    <button
       type={type}
-      className={buttonClasses}
+      className={`${buttonClasses} ${disabled ? '' : 'hover:scale-105 transform transition-all duration-200'}`}
       onClick={onClick}
       disabled={disabled || loading}
-      whileHover={{ scale: disabled ? 1 : 1.02 }}
-      whileTap={{ scale: disabled ? 1 : 0.98 }}
       aria-label={ariaLabel}
     >
       {buttonContent}
-    </motion.button>
+    </button>
   );
 }

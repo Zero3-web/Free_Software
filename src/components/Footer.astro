@@ -1,19 +1,17 @@
 ---
 import Logo from './Logo';
-import DonationButton from './DonationButton';
 ---
 
 <footer class="bg-[var(--bg-primary)] text-[var(--text-primary)] border-t border-[var(--border-primary)]">
   <div class="container-wide py-12">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-      <!-- Logo and description -->
+      <!-- Name and description only, no logo -->
       <div class="col-span-1 md:col-span-2">
-        <div class="flex items-center space-x-2 mb-4">
-          <Logo size="md" client:load />
-          <h3 class="text-xl font-bold">Software <span class="text-blue-500">Gratis</span></h3>
+        <div class="flex items-center mb-4">
+          <h3 class="text-xl font-bold">Open<span class="text-blue-500">software</span></h3>
         </div>
         <p class="text-[var(--text-secondary)] mb-4 max-w-md">
-          Tu destino para software profesional gratuito. Descarga las mejores herramientas de creatividad, productividad y desarrollo sin costo alguno.
+          Your destination for professional free software. Download the best creativity, productivity and development tools at no cost.
         </p>
         <div class="flex space-x-4">
           <a href="#" class="text-[var(--text-muted)] hover:text-[var(--accent-primary)] transition-colors">
@@ -38,40 +36,36 @@ import DonationButton from './DonationButton';
       <div>
         <h4 class="text-lg font-semibold mb-4 text-[var(--text-primary)]">Software</h4>
         <ul class="space-y-2">
-          <li><a href="/software/productividad" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Productividad</a></li>
-          <li><a href="/software/diseno" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Diseño Gráfico</a></li>
-          <li><a href="/software/video" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Edición de Video</a></li>
-          <li><a href="/software/desarrollo" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Desarrollo</a></li>
-          <li><a href="/software/seguridad" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Seguridad</a></li>
+          <li><a href="/software/productividad" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Productivity</a></li>
+          <li><a href="/software/diseno" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Graphic Design</a></li>
+          <li><a href="/software/video" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Video Editing</a></li>
+          <li><a href="/software/desarrollo" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Development</a></li>
+          <li><a href="/software/seguridad" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Security</a></li>
         </ul>
       </div>
 
       <!-- Company -->
       <div>
-        <h4 class="text-lg font-semibold mb-4 text-[var(--text-primary)]">Empresa</h4>
+        <h4 class="text-lg font-semibold mb-4 text-[var(--text-primary)]">Company</h4>
         <ul class="space-y-2">
-          <li><a href="/sobre-nosotros" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Sobre Nosotros</a></li>
+          <li><a href="/sobre-nosotros" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">About Us</a></li>
           <li><a href="/blog" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Blog</a></li>
-          <li><a href="/herramientas" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Herramientas</a></li>
-          <li><a href="/contacto" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Contacto</a></li>
+          <li><a href="/herramientas" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Tools</a></li>
+          <li><a href="/contacto" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Contact</a></li>
         </ul>
       </div>
     </div>
 
-    <!-- Donation Section -->
-    <div class="mt-8">
-      <DonationButton variant="footer" client:load />
-    </div>
 
     <!-- Bottom section -->
     <div class="border-t border-[var(--border-primary)] mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
       <p class="text-[var(--text-muted)] text-sm">
-        © 2024 Software Gratis. Todos los derechos reservados.
+        © 2024 Opensoftware. All rights reserved.
       </p>
       <div class="flex space-x-6 mt-4 md:mt-0">
-        <a href="/privacidad" class="text-[var(--text-muted)] hover:text-[var(--accent-primary)] text-sm transition-colors">Política de Privacidad</a>
-        <a href="/terminos" class="text-[var(--text-muted)] hover:text-[var(--accent-primary)] text-sm transition-colors">Términos de Servicio</a>
-        <a href="/contacto" class="text-[var(--text-muted)] hover:text-[var(--accent-primary)] text-sm transition-colors">Contacto</a>
+        <a href="/privacidad" class="text-[var(--text-muted)] hover:text-[var(--accent-primary)] text-sm transition-colors">Privacy Policy</a>
+        <a href="/terminos" class="text-[var(--text-muted)] hover:text-[var(--accent-primary)] text-sm transition-colors">Terms of Service</a>
+        <a href="/contacto" class="text-[var(--text-muted)] hover:text-[var(--accent-primary)] text-sm transition-colors">Contact</a>
       </div>
     </div>
   </div>

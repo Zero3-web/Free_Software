@@ -9,12 +9,15 @@ interface BreadcrumbItem {
 interface BreadcrumbsProps {
   items: BreadcrumbItem[];
   className?: string;
+  class?: string;
 }
 
-export default function Breadcrumbs({ items, className = '' }: BreadcrumbsProps) {
+export default function Breadcrumbs({ items, className = '', class: classAttr = '' }: BreadcrumbsProps) {
+  const finalClassName = className || classAttr;
+  
   return (
     <nav 
-      className={`flex ${className}`} 
+      className={`flex ${finalClassName}`} 
       aria-label="Breadcrumb"
       role="navigation"
       itemScope

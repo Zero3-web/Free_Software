@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Star, Heart, Download, Eye, Shield, Zap, ExternalLink } from 'lucide-react';
+import { Star, Heart, ExternalLink } from 'lucide-react';
 import type { Product } from '../data/products';
 import { useNotifications } from '../contexts/NotificationContext';
 import ProductBadge from './ProductBadge';
@@ -11,15 +10,19 @@ interface ProductCardProps {
   className?: string;
   showDescription?: boolean;
   layout?: 'grid' | 'list';
+  isFavorited?: boolean;
+  onFavoriteClick?: () => void;
 }
 
 export default function ProductCard({ 
   product, 
   className = '', 
   showDescription = true,
-  layout = 'grid' 
+  layout = 'grid',
+  isFavorited: propIsFavorited,
+  onFavoriteClick: propOnFavoriteClick
 }: ProductCardProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(propIsFavorited || false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const { showSuccess, showError } = useNotifications();
@@ -27,204 +30,293 @@ export default function ProductCard({
   const handleFavoriteToggle = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsFavorite(!isFavorite);
-    if (!isFavorite) {
-      showSuccess(`${product.name} agregado a favoritos`);
+    
+    if (propOnFavoriteClick) {
+      propOnFavoriteClick();
     } else {
-      showSuccess(`${product.name} removido de favoritos`);
+      setIsFavorite(!isFavorite);
+      if (!isFavorite) {
+        showSuccess(`${product.name} agregado a favoritos`);
+      } else {
+        showSuccess(`${product.name} removido de favoritos`);
+      }
     }
   };
 
   const formatDownloads = (downloads: number) => {
     if (downloads >= 1000000) {
       return `${(downloads / 1000000).toFixed(1)}M`;
-    }
-    if (downloads >= 1000) {
+    } else if (downloads >= 1000) {
       return `${(downloads / 1000).toFixed(1)}K`;
     }
     return downloads.toString();
   };
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        className={`w-4 h-4 ${
-          i < Math.floor(rating)
-            ? 'text-yellow-400 fill-current'
-            : i < rating
-            ? 'text-yellow-400 fill-current opacity-50'
-            : 'text-gray-300 dark:text-gray-600'
-        }`}
-      />
-    ));
+  const formatRating = (rating: number) => {
+    return rating.toFixed(1);
   };
 
-  const getBadgeColor = (type: string) => {
+  const getPriceTypeColor = (type: string) => {
     const colors = {
-      'free': 'bg-[var(--success-bg)] text-[var(--success)] border-[var(--success-border)]',
-      'freemium': 'bg-[var(--warning-bg)] text-[var(--warning)] border-[var(--warning-border)]',
-      'open-source': 'bg-[var(--info-bg)] text-[var(--info)] border-[var(--info-border)]',
-      'trial': 'bg-[var(--error-bg)] text-[var(--error)] border-[var(--error-border)]'
+      'free': 'bg-green-100 text-green-800 border-green-200',
+      'freemium': 'bg-blue-100 text-blue-800 border-blue-200',
+      'open-source': 'bg-purple-100 text-purple-800 border-purple-200',
+      'trial': 'bg-red-100 text-red-800 border-red-200'
     };
     return colors[type as keyof typeof colors] || colors.free;
   };
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="bg-[var(--bg-primary)] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
-      itemScope
-      itemType="https://schema.org/SoftwareApplication"
-    >
-      {/* Schema.org microdata - hidden from visual but available to search engines */}
-      <meta itemProp="name" content={product.name} />
-      <meta itemProp="description" content={product.description} />
-      <meta itemProp="applicationCategory" content={product.category} />
-      <meta itemProp="operatingSystem" content={product.systemRequirements.os.join(', ')} />
-      <meta itemProp="softwareVersion" content={product.version} />
-      <meta itemProp="fileSize" content={product.size} />
-      <meta itemProp="downloadUrl" content={`https://software-gratis.com/software/${product.id}`} />
-      <div itemProp="aggregateRating" itemScope itemType="https://schema.org/AggregateRating" style={{ display: 'none' }}>
-        <meta itemProp="ratingValue" content={product.rating.toString()} />
-        <meta itemProp="bestRating" content="5" />
-        <meta itemProp="ratingCount" content={Math.floor(product.downloads / 10).toString()} />
-      </div>
-      <div itemProp="offers" itemScope itemType="https://schema.org/Offer" style={{ display: 'none' }}>
-        <meta itemProp="price" content="0" />
-        <meta itemProp="priceCurrency" content="EUR" />
-        <meta itemProp="availability" content="https://schema.org/InStock" />
-      </div>
-      {/* Image Container */}
-      <div className="relative aspect-video bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 overflow-hidden">
-        {!imageLoaded && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-white text-xl font-bold">
-                {product.company.charAt(0)}
+  const getFavoriteState = () => {
+    return propIsFavorited !== undefined ? propIsFavorited : isFavorite;
+  };
+
+  if (layout === 'list') {
+    return (
+      <div className={`bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-500 ease-out overflow-hidden group ${className}`}>
+        <div className="p-4 sm:p-6">
+          {/* Mobile Layout */}
+          <div className="flex flex-col sm:hidden space-y-3">
+            <div className="flex items-center space-x-3">
+              {/* Product Image */}
+              <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <span className="text-white text-lg font-bold">
+                  {product.company?.charAt(0) || product.name.charAt(0)}
+                </span>
+              </div>
+              
+              {/* Title and Company */}
+              <div className="flex-1 min-w-0">
+                <h3 className="text-responsive-base font-semibold text-gray-900 truncate">{product.name}</h3>
+                <p className="text-sm text-gray-600 truncate">{product.company}</p>
+              </div>
+              
+              {/* Favorite Button */}
+              <button
+                onClick={handleFavoriteToggle}
+                className={`p-2 rounded-full transition-all duration-300 cursor-pointer hover:scale-110 ${
+                  getFavoriteState() ? 'text-red-500 bg-red-50' : 'text-gray-400 hover:text-red-500 hover:bg-red-50'
+                }`}
+              >
+                <Heart className={`w-4 h-4 ${getFavoriteState() ? 'fill-current' : ''}`} />
+              </button>
+            </div>
+            
+            {/* Rating and Category */}
+            <div className="flex items-center justify-between text-sm">
+              <div className="flex items-center space-x-1">
+                <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                <span className="font-medium">{formatRating(product.rating)}</span>
+                <span className="text-gray-500">({formatDownloads(product.downloads)})</span>
+              </div>
+              <span className="text-gray-500">{product.category}</span>
+            </div>
+            
+            {/* Action Button */}
+            <Button
+              href={`/software/${product.id}`}
+              variant="primary"
+              size="sm"
+              className="w-full"
+            >
+              Ver Detalles
+            </Button>
+          </div>
+
+          {/* Desktop Layout */}
+          <div className="hidden sm:flex items-center space-x-6">
+            {/* Product Image */}
+            <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <span className="text-white text-2xl font-bold">
+                {product.company?.charAt(0) || product.name.charAt(0)}
               </span>
             </div>
+
+            {/* Product Info */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-start justify-between">
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-responsive-lg font-semibold text-gray-900 truncate">{product.name}</h3>
+                  <p className="text-responsive-sm text-gray-600 truncate">{product.company}</p>
+                  <div className="flex items-center space-x-4 mt-1 text-sm text-gray-500">
+                    <span>{product.category}</span>
+                    <span>v{product.version}</span>
+                    <span>{product.size}</span>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3 ml-4">
+                  <div className="flex items-center space-x-1">
+                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                    <span className="text-responsive-sm font-medium">{formatRating(product.rating)}</span>
+                    <span className="text-xs text-gray-500">({formatDownloads(product.downloads)})</span>
+                  </div>
+                  <button
+                    onClick={handleFavoriteToggle}
+                    className={`p-2 rounded-full transition-all duration-300 cursor-pointer hover:scale-110 ${
+                      getFavoriteState() ? 'text-red-500 bg-red-50' : 'text-gray-400 hover:text-red-500 hover:bg-red-50'
+                    }`}
+                  >
+                    <Heart className={`w-4 h-4 ${getFavoriteState() ? 'fill-current' : ''}`} />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Button */}
+            <div className="flex-shrink-0">
+              <Button
+                href={`/software/${product.id}`}
+                variant="primary"
+                size="sm"
+                className="whitespace-nowrap"
+              >
+                Ver Detalles
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-500 ease-out overflow-hidden group transform hover:scale-[1.02] hover:-translate-y-1 cursor-pointer"
+      itemScope
+      itemType="https://schema.org/SoftwareApplication"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Schema.org microdata - hidden from visual but available to search engines */}
+      <div style={{ display: 'none' }}>
+        <span itemProp="name">{product.name}</span>
+        <span itemProp="description">{product.description}</span>
+        <span itemProp="applicationCategory">{product.category}</span>
+        <span itemProp="operatingSystem">{product.platforms?.join(', ')}</span>
+        <div itemProp="aggregateRating" itemScope itemType="https://schema.org/AggregateRating">
+          <span itemProp="ratingValue">{product.rating}</span>
+          <span itemProp="ratingCount">{product.downloads}</span>
+        </div>
+        <div itemProp="author" itemScope itemType="https://schema.org/Organization">
+          <span itemProp="name">{product.company}</span>
+        </div>
+      </div>
+
+      {/* Product Image/Icon */}
+      <div className="relative h-36 sm:h-44 lg:h-48 overflow-hidden">
+        {product.image ? (
+          <img 
+            src={product.image} 
+            alt={product.name}
+            className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+            <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
+              {product.company?.charAt(0) || product.name.charAt(0)}
+            </span>
           </div>
         )}
-        <img
-          src={product.image}
-          alt={product.name}
-          className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${
-            imageLoaded ? 'opacity-100' : 'opacity-0'
+
+        {/* Favorite Button */}
+        <button
+          onClick={handleFavoriteToggle}
+          className={`absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 rounded-full transition-all duration-300 cursor-pointer hover:scale-110 touch-manipulation ${
+            getFavoriteState() 
+              ? 'bg-white text-red-500 shadow-md' 
+              : 'bg-white bg-opacity-80 text-gray-600 hover:bg-opacity-100 hover:text-red-500'
           }`}
-          onLoad={() => setImageLoaded(true)}
-          onError={() => setImageLoaded(true)}
-        />
-        
-        {/* Overlay with actions */}
-        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-3">
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="bg-white/90 p-3 rounded-full hover:bg-white transition-colors"
-            onClick={() => window.open(`/software/${product.id}`, '_blank')}
-          >
-            <Eye className="w-5 h-5 text-gray-800" />
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="bg-blue-500 p-3 rounded-full hover:bg-blue-600 transition-colors text-white"
-          >
-            <Download className="w-5 h-5" />
-          </motion.button>
-        </div>
+        >
+          <Heart className={`w-3 h-3 sm:w-4 sm:h-4 transition-all duration-300 ${getFavoriteState() ? 'fill-current' : ''}`} />
+        </button>
 
         {/* Badges */}
         {product.badges && product.badges.length > 0 && (
-          <div className="absolute top-3 left-3 flex flex-wrap gap-1">
-            {product.badges.map((badge, index) => (
+          <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-wrap gap-1">
+            {product.badges.slice(0, 2).map((badge, index) => (
               <ProductBadge key={badge} badge={badge} index={index} />
             ))}
           </div>
         )}
 
-        {/* Favorite button */}
-        <button
-          onClick={handleFavoriteToggle}
-          className="absolute top-3 right-3 p-2 rounded-full bg-[var(--bg-secondary)] backdrop-blur-sm hover:bg-[var(--bg-tertiary)] transition-colors hover-scale"
-        >
-          <Heart
-            className={`w-4 h-4 ${
-              isFavorite
-                ? 'text-red-500 fill-current'
-                : 'text-gray-600 dark:text-gray-300'
-            }`}
-          />
-        </button>
-
-        {/* Company badge */}
-        <div className="absolute top-3 left-3 px-2 py-1 bg-blue-500 text-white text-xs font-medium rounded-md">
-          {product.company}
+        {/* Price Type Badge */}
+        <div className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3">
+          <span className={`px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full text-xs font-medium border transition-all duration-300 hover:scale-105 ${getPriceTypeColor(product.priceType || 'free')}`}>
+            {product.priceType === 'free' ? 'Free' : 
+             product.priceType === 'freemium' ? 'Freemium' :
+             product.priceType === 'open-source' ? 'Open Source' : 'Free'}
+          </span>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-6">
+      {/* Product Details */}
+      <div className="p-3 sm:p-4 lg:p-6">
         {/* Header */}
-        <div className="mb-3">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1 line-clamp-1">
+        <div className="mb-3 sm:mb-4">
+          <h3 className="text-responsive-base sm:text-responsive-lg font-semibold text-gray-900 mb-1 line-clamp-1">
             {product.name}
           </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
-            {product.description}
-          </p>
-        </div>
-
-        {/* Tags */}
-        <div className="flex flex-wrap gap-1 mb-4">
-          {product.tags.slice(0, 3).map((tag) => (
-            <span
-              key={tag}
-              className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md"
-            >
-              {tag}
-            </span>
-          ))}
-          {product.tags.length > 3 && (
-            <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md">
-              +{product.tags.length - 3}
-            </span>
+          <p className="text-sm text-gray-600 mb-2 truncate">{product.company}</p>
+          
+          {showDescription && (
+            <p className="text-sm text-gray-700 line-clamp-2 hidden sm:block">
+              {product.description}
+            </p>
           )}
         </div>
 
-        {/* Rating and Downloads */}
-        <div className="flex items-center justify-between mb-4">
+        {/* Stats */}
+        <div className="flex items-center justify-between mb-3 sm:mb-4">
           <div className="flex items-center space-x-1">
-            {renderStars(product.rating)}
-            <span className="text-sm text-gray-600 dark:text-gray-300 ml-1">
-              {product.rating}
+            <Star className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400 fill-current" />
+            <span className="text-xs sm:text-sm font-medium">{formatRating(product.rating)}</span>
+            <span className="text-xs text-gray-500">
+              ({formatDownloads(product.downloads)})
             </span>
           </div>
-          <div className="text-sm text-gray-600 dark:text-gray-300">
-            {formatDownloads(product.downloads)} descargas
+          
+          <div className="text-xs text-gray-500 truncate ml-2">
+            {product.category}
           </div>
         </div>
 
+        {/* Platform support */}
+        {product.platforms && product.platforms.length > 0 && (
+          <div className="mb-3 sm:mb-4">
+            <div className="flex flex-wrap gap-1">
+              {product.platforms.slice(0, 3).map((platform) => (
+                <span 
+                  key={platform}
+                  className="px-1.5 py-0.5 sm:px-2 sm:py-1 bg-gray-100 text-gray-700 text-xs rounded"
+                >
+                  {platform}
+                </span>
+              ))}
+              {product.platforms.length > 3 && (
+                <span className="px-1.5 py-0.5 sm:px-2 sm:py-1 bg-gray-100 text-gray-700 text-xs rounded">
+                  +{product.platforms.length - 3}
+                </span>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Version and Size */}
-        <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
+        <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
           <span>v{product.version}</span>
           <span>{product.size}</span>
         </div>
 
         {/* Action button */}
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2 px-4 rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-200 flex items-center justify-center space-x-2"
+        <button
+          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2.5 sm:py-2 px-4 rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 flex items-center justify-center space-x-2 cursor-pointer hover:scale-105 hover:shadow-lg touch-manipulation text-sm sm:text-base"
           onClick={() => window.location.href = `/software/${product.id}`}
         >
-          <span>Ver Detalles</span>
-          <Eye className="w-4 h-4" />
-        </motion.button>
+          <span>View Details</span>
+          <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:rotate-12" />
+        </button>
       </div>
-    </motion.div>
+    </div>
   );
 }

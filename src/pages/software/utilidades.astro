@@ -1,0 +1,64 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import NotificationRoot from '../../components/NotificationRoot';
+import { products } from '../../data/products';
+
+const utilityProducts = products.filter(product => 
+  product.category === 'Utilidades' || 
+  product.category === 'Herramientas' ||
+  product.tags?.includes('utilidades') ||
+  product.tags?.includes('sistema') ||
+  product.tags?.includes('optimizacion') ||
+  product.name.toLowerCase().includes('cleaner') ||
+  product.name.toLowerCase().includes('optimizer') ||
+  product.name.toLowerCase().includes('tool')
+);
+---
+
+<Layout 
+  title="Utilidades del Sistema - Gratis"
+  description="Descarga las mejores utilidades gratuitas: optimización del sistema, limpieza, herramientas de mantenimiento y productividad."
+>
+  <Header slot="header" />
+  <main>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-yellow-50 via-white to-amber-50 py-20">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            <span class="bg-gradient-to-r from-yellow-600 to-amber-600 bg-clip-text text-transparent">Utilidades</span> del Sistema
+          </h1>
+          <p class="text-xl md:text-2xl text-gray-600 mb-8">
+            Herramientas esenciales para optimizar, limpiar y mantener tu sistema en perfecto estado
+          </p>
+          <div class="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+            <span class="bg-white px-4 py-2 rounded-full shadow-sm">🧹 Limpieza del sistema</span>
+            <span class="bg-white px-4 py-2 rounded-full shadow-sm">⚡ Optimización</span>
+            <span class="bg-white px-4 py-2 rounded-full shadow-sm">📊 Monitoreo</span>
+            <span class="bg-white px-4 py-2 rounded-full shadow-sm">🔧 Mantenimiento</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="py-16 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">
+            Herramientas de Sistema
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Mantén tu computadora funcionando como nueva con estas utilidades 
+            esenciales para optimización y mantenimiento.
+          </p>
+        </div>
+        
+        <NotificationRoot products={utilityProducts} page="grid" client:load />
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

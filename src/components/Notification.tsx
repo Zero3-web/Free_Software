@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, AlertCircle, XCircle, X } from 'lucide-react';
 
 interface NotificationProps {
@@ -41,11 +40,7 @@ const Notification = ({ id, type, message, duration = 5000, onClose }: Notificat
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: 400, scale: 0.9 }}
-      animate={{ opacity: 1, x: 0, scale: 1 }}
-      exit={{ opacity: 0, x: 400, scale: 0.9 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
+    <div
       className={`flex items-center gap-3 p-4 rounded-lg text-white shadow-lg max-w-sm ${colors[type]}`}
     >
       <Icon className="w-5 h-5 flex-shrink-0" />
@@ -56,7 +51,7 @@ const Notification = ({ id, type, message, duration = 5000, onClose }: Notificat
       >
         <X className="w-4 h-4" />
       </button>
-    </motion.div>
+    </div>
   );
 };
 
@@ -68,15 +63,13 @@ interface NotificationContainerProps {
 export const NotificationContainer = ({ notifications, onClose }: NotificationContainerProps) => {
   return (
     <div className="fixed top-4 right-4 z-50 space-y-2">
-      <AnimatePresence>
-        {notifications.map((notification) => (
-          <Notification
-            key={notification.id}
-            {...notification}
-            onClose={onClose}
-          />
-        ))}
-      </AnimatePresence>
+      {notifications.map((notification) => (
+        <Notification
+          key={notification.id}
+          {...notification}
+          onClose={onClose}
+        />
+      ))}
     </div>
   );
 };

@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
 
 interface PaginationProps {
@@ -50,9 +49,9 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
       {/* Números de página */}
       <div className="flex items-center space-x-1">
         {visiblePages.map((page, index) => (
-          <motion.div key={index} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <div key={index}>
             {page === '...' ? (
-              <div className="px-3 py-2 text-[var(--text-muted)]">
+              <div className="px-3 py-2 text-gray-500">
                 <MoreHorizontal className="w-4 h-4" />
               </div>
             ) : (
@@ -60,14 +59,14 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
                 onClick={() => onPageChange(page as number)}
                 className={`px-3 py-2 rounded-lg font-medium transition-all ${
                   currentPage === page
-                    ? 'bg-[var(--accent-primary)] text-white shadow-lg'
-                    : 'bg-[var(--bg-secondary)] text-[var(--text-primary)] hover:bg-[var(--accent-primary)] hover:text-white'
+                    ? 'bg-blue-600 text-white shadow-lg'
+                    : 'bg-gray-100 text-gray-900 hover:bg-blue-600 hover:text-white'
                 }`}
               >
                 {page}
               </button>
             )}
-          </motion.div>
+          </div>
         ))}
       </div>
 

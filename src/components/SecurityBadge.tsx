@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Shield, CheckCircle, Lock, Award, Verified } from 'lucide-react';
 
 interface SecurityBadgeProps {
@@ -13,35 +12,30 @@ const securityConfig = {
     icon: CheckCircle,
     label: 'Verificado',
     color: 'bg-green-100 text-green-800 border-green-200',
-    darkColor: 'dark:bg-green-900/20 dark:text-green-400 dark:border-green-800',
     description: 'Software verificado por nuestro equipo'
   },
   'virus-free': {
     icon: Shield,
     label: 'Sin Virus',
     color: 'bg-blue-100 text-blue-800 border-blue-200',
-    darkColor: 'dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800',
     description: 'Escaneado y libre de malware'
   },
   'secure': {
     icon: Lock,
     label: 'Seguro',
     color: 'bg-purple-100 text-purple-800 border-purple-200',
-    darkColor: 'dark:bg-purple-900/20 dark:text-purple-400 dark:border-purple-800',
     description: 'Descarga segura y cifrada'
   },
   'trusted': {
     icon: Award,
     label: 'Confiable',
     color: 'bg-orange-100 text-orange-800 border-orange-200',
-    darkColor: 'dark:bg-orange-900/20 dark:text-orange-400 dark:border-orange-800',
     description: 'Fuente oficial y confiable'
   },
   'certified': {
     icon: Verified,
     label: 'Certificado',
     color: 'bg-indigo-100 text-indigo-800 border-indigo-200',
-    darkColor: 'dark:bg-indigo-900/20 dark:text-indigo-400 dark:border-indigo-800',
     description: 'Certificado por autoridades digitales'
   }
 };
@@ -83,7 +77,7 @@ export default function SecurityBadge({
       className={`
         inline-flex items-center ${sizeStyles.gap} ${sizeStyles.padding} 
         rounded-full border font-medium
-        ${config.color} ${config.darkColor}
+        ${config.color}
         ${className}
       `}
       title={config.description}
@@ -92,19 +86,6 @@ export default function SecurityBadge({
       <span className={sizeStyles.textSize}>{config.label}</span>
     </div>
   );
-
-  if (animated) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        whileHover={{ scale: 1.05 }}
-        transition={{ duration: 0.2 }}
-      >
-        {badgeContent}
-      </motion.div>
-    );
-  }
 
   return badgeContent;
 }
@@ -124,7 +105,6 @@ export function SecurityIndicators({ badges, size = 'md', className = '' }: Secu
           key={badge} 
           type={badge} 
           size={size}
-          animated={true}
         />
       ))}
     </div>

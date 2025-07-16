@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { products } from '../data/products';
 
 const currentDate = new Date().toISOString().split('T')[0];
-const baseUrl = 'https://software-gratis.com';
+const baseUrl = 'https://opensoftware.com';
 
 // Páginas estáticas
 const staticPages = [

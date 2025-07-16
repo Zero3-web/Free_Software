@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import NotificationRoot from '../../components/NotificationRoot';
+import { products } from '../../data/products';
+
+const videoProducts = products.filter(product => 
+  product.category === 'Video/Multimedia' || 
+  product.category === 'Edición de Video' ||
+  product.category === 'Video' ||
+  product.tags?.includes('video') ||
+  product.tags?.includes('multimedia') ||
+  product.tags?.includes('edicion') ||
+  product.name.toLowerCase().includes('video') ||
+  product.name.toLowerCase().includes('premiere') ||
+  product.name.toLowerCase().includes('editor')
+);
+---
+
+<Layout 
+  title="Video Editing Software - Free Professional Tools"
+  description="Download the best free video editors: professional tools for editing, effects, animation and multimedia production."
+>
+  <Header slot="header" />
+  <main>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-red-50 via-white to-orange-50 py-20">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            <span class="bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">Video Editing</span> Software
+          </h1>
+          <p class="text-xl md:text-2xl text-gray-600 mb-8">
+            Professional tools for creating, editing and producing high-quality audiovisual content
+          </p>
+          <div class="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+            <span class="bg-white px-4 py-2 rounded-full shadow-sm hover:shadow-md transition-shadow cursor-pointer">🎬 Professional Editors</span>
+            <span class="bg-white px-4 py-2 rounded-full shadow-sm hover:shadow-md transition-shadow cursor-pointer">✨ Special Effects</span>
+            <span class="bg-white px-4 py-2 rounded-full shadow-sm hover:shadow-md transition-shadow cursor-pointer">🎵 Audio Editing</span>
+            <span class="bg-white px-4 py-2 rounded-full shadow-sm">🎯 Animación 2D/3D</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="py-16 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">
+            Editores de Video Profesionales
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Desde alternativas gratuitas a Premiere Pro hasta software especializado en efectos visuales, 
+            encuentra las mejores herramientas para tu producción audiovisual.
+          </p>
+        </div>
+        
+        <NotificationRoot products={videoProducts} page="grid" client:load />
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

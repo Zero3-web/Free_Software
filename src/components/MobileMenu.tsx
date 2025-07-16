@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { Menu, X, Heart, Download, Home, Info, Mail, ChevronDown, FileText, Paintbrush, Video, Code, Zap, Shield, Monitor, Calculator } from 'lucide-react';
 import SearchBar from './SearchBar';
 import type { Product } from '../data/products';
@@ -34,207 +33,213 @@ export default function MobileMenu({ products }: MobileMenuProps) {
     { icon: Mail, label: 'Contacto', href: '/contacto' }
   ];
 
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    };
+  }, [isOpen]);
+
+  // Close menu on escape key
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
+
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const toggleSection = (section: string) => {
     setExpandedSection(expandedSection === section ? null : section);
   };
 
+  const handleLinkClick = () => {
+    setIsOpen(false);
+    setExpandedSection(null);
+  };
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      setIsOpen(false);
+    }
+  };
+
   return (
     <>
-      {/* Menu Toggle Button */}
+      {/* Enhanced Menu Toggle Button with Animation */}
       <button
         onClick={toggleMenu}
-        className="md:hidden p-2 rounded-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        aria-label="Abrir menú"
+        className={`md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${isOpen ? 'hamburger-menu active' : 'hamburger-menu'}`}
+        aria-label={isOpen ? 'Cerrar menú' : 'Abrir menú'}
         aria-expanded={isOpen}
+        type="button"
       >
-        {isOpen ? (
-          <X className="w-6 h-6" />
-        ) : (
-          <Menu className="w-6 h-6" />
-        )}
+        <div className="relative w-6 h-6">
+          <span className={`hamburger-line absolute top-1 ${isOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+          <span className={`hamburger-line absolute top-3 ${isOpen ? 'opacity-0' : ''}`}></span>
+          <span className={`hamburger-line absolute top-5 ${isOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+        </div>
       </button>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/20 z-40 md:hidden"
-              onClick={toggleMenu}
-            />
+      {/* Enhanced Mobile Menu */}
+      {isOpen && (
+        <>
+          {/* Backdrop with improved styling */}
+          <div
+            className="mobile-menu-backdrop active"
+            onClick={handleBackdropClick}
+            aria-hidden="true"
+          />
 
-            {/* Menu Panel */}
-            <motion.div
-              initial={{ opacity: 0, x: '100%' }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: '100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed top-0 right-0 bottom-0 w-80 max-w-[90vw] bg-white dark:bg-gray-900 shadow-xl z-50 md:hidden overflow-y-auto"
-            >
-              {/* Header */}
-              <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-                <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                    <span className="text-white text-sm font-bold">SG</span>
-                  </div>
-                  <span className="font-semibold text-gray-900 dark:text-white">Software Gratis</span>
+          {/* Menu Panel with improved responsive design */}
+          <div className="mobile-menu-panel active" role="dialog" aria-modal="true" aria-label="Mobile navigation menu">
+            {/* Header with improved spacing */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white sticky top-0 z-10">
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white text-sm font-bold">SG</span>
                 </div>
+                <span className="font-semibold text-gray-900 text-sm sm:text-base">Software Gratis</span>
+              </div>
+              <button
+                onClick={toggleMenu}
+                className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                aria-label="Cerrar menú"
+                type="button"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Search with improved mobile layout */}
+            <div className="p-4 border-b border-gray-200 bg-white">
+              <SearchBar 
+                products={products}
+                className="w-full"
+                placeholder="Buscar software..."
+                onProductSelect={handleLinkClick}
+              />
+            </div>
+
+            {/* Menu Items with enhanced scrolling */}
+            <nav className="flex-1 p-4 overflow-y-auto bg-white">
+              <ul className="space-y-1">
+                {mainMenuItems.map((item, index) => (
+                  <li key={item.href}>
+                    <a
+                      href={item.href}
+                      onClick={handleLinkClick}
+                      className="mobile-menu-item flex items-center space-x-3"
+                    >
+                      <item.icon className="w-5 h-5" />
+                      <span className="font-medium">{item.label}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Software Categories with improved animation */}
+              <div className="mt-6">
                 <button
-                  onClick={toggleMenu}
-                  className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  aria-label="Cerrar menú"
+                  onClick={() => toggleSection('software')}
+                  className="mobile-menu-item flex items-center justify-between w-full"
+                  aria-expanded={expandedSection === 'software'}
+                  type="button"
                 >
-                  <X className="w-5 h-5" />
+                  <div className="flex items-center space-x-3">
+                    <Download className="w-5 h-5" />
+                    <span className="font-medium">Software</span>
+                  </div>
+                  <div className={`transform transition-transform duration-200 ${expandedSection === 'software' ? 'rotate-180' : ''}`}>
+                    <ChevronDown className="w-4 h-4" />
+                  </div>
                 </button>
+
+                {expandedSection === 'software' && (
+                  <ul className="ml-8 mt-2 space-y-1 animate-fadeIn">
+                    {softwareCategories.map((category) => (
+                      <li key={category.href}>
+                        <a
+                          href={category.href}
+                          onClick={handleLinkClick}
+                          className="flex items-center space-x-3 p-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 text-sm"
+                        >
+                          <category.icon className="w-4 h-4" />
+                          <span>{category.label}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
 
-              {/* Search */}
-              <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-                <SearchBar 
-                  products={products}
-                  className="w-full"
-                  placeholder="Buscar software..."
-                />
+              {/* Herramientas with improved animation */}
+              <div className="mt-4">
+                <button
+                  onClick={() => toggleSection('herramientas')}
+                  className="mobile-menu-item flex items-center justify-between w-full"
+                  aria-expanded={expandedSection === 'herramientas'}
+                  type="button"
+                >
+                  <div className="flex items-center space-x-3">
+                    <Zap className="w-5 h-5" />
+                    <span className="font-medium">Herramientas</span>
+                  </div>
+                  <div className={`transform transition-transform duration-200 ${expandedSection === 'herramientas' ? 'rotate-180' : ''}`}>
+                    <ChevronDown className="w-4 h-4" />
+                  </div>
+                </button>
+
+                {expandedSection === 'herramientas' && (
+                  <ul className="ml-8 mt-2 space-y-1 animate-fadeIn">
+                    {herramientas.map((herramienta) => (
+                      <li key={herramienta.href}>
+                        <a
+                          href={herramienta.href}
+                          onClick={handleLinkClick}
+                          className="flex items-center space-x-3 p-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 text-sm"
+                        >
+                          <herramienta.icon className="w-4 h-4" />
+                          <span>{herramienta.label}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
+            </nav>
 
-              {/* Menu Items */}
-              <nav className="p-4">
-                <ul className="space-y-2">
-                  {mainMenuItems.map((item, index) => (
-                    <motion.li
-                      key={item.href}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                    >
-                      <a
-                        href={item.href}
-                        onClick={toggleMenu}
-                        className="flex items-center space-x-3 p-3 rounded-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group"
-                      >
-                        <item.icon className="w-5 h-5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
-                        <span className="font-medium">{item.label}</span>
-                      </a>
-                    </motion.li>
-                  ))}
-                </ul>
-
-                {/* Software Categories */}
-                <div className="mt-6">
-                  <button
-                    onClick={() => toggleSection('software')}
-                    className="flex items-center justify-between w-full p-3 rounded-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <Download className="w-5 h-5" />
-                      <span className="font-medium">Software</span>
-                    </div>
-                    <motion.div
-                      animate={{ rotate: expandedSection === 'software' ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <ChevronDown className="w-4 h-4" />
-                    </motion.div>
-                  </button>
-
-                  <AnimatePresence>
-                    {expandedSection === 'software' && (
-                      <motion.ul
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="ml-8 mt-2 space-y-1 overflow-hidden"
-                      >
-                        {softwareCategories.map((category) => (
-                          <motion.li
-                            key={category.href}
-                            initial={{ opacity: 0, x: 10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                          >
-                            <a
-                              href={category.href}
-                              onClick={toggleMenu}
-                              className="flex items-center space-x-3 p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-                            >
-                              <category.icon className="w-4 h-4" />
-                              <span className="text-sm">{category.label}</span>
-                            </a>
-                          </motion.li>
-                        ))}
-                      </motion.ul>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                {/* Herramientas */}
-                <div className="mt-4">
-                  <button
-                    onClick={() => toggleSection('herramientas')}
-                    className="flex items-center justify-between w-full p-3 rounded-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <Zap className="w-5 h-5" />
-                      <span className="font-medium">Herramientas</span>
-                    </div>
-                    <motion.div
-                      animate={{ rotate: expandedSection === 'herramientas' ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <ChevronDown className="w-4 h-4" />
-                    </motion.div>
-                  </button>
-
-                  <AnimatePresence>
-                    {expandedSection === 'herramientas' && (
-                      <motion.ul
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="ml-8 mt-2 space-y-1 overflow-hidden"
-                      >
-                        {herramientas.map((herramienta) => (
-                          <motion.li
-                            key={herramienta.href}
-                            initial={{ opacity: 0, x: 10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                          >
-                            <a
-                              href={herramienta.href}
-                              onClick={toggleMenu}
-                              className="flex items-center space-x-3 p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-                            >
-                              <herramienta.icon className="w-4 h-4" />
-                              <span className="text-sm">{herramienta.label}</span>
-                            </a>
-                          </motion.li>
-                        ))}
-                      </motion.ul>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </nav>
-
-              {/* Footer */}
-              <div className="mt-auto p-4 border-t border-gray-200 dark:border-gray-700">
-                <div className="text-center">
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    © 2024 Software Gratis
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-                    Versión 1.0.0
-                  </p>
-                </div>
+            {/* Footer with improved responsive design */}
+            <div className="p-4 border-t border-gray-200 bg-gray-50">
+              <div className="text-center">
+                <p className="text-sm text-gray-600">
+                  © 2024 Software Gratis
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  Versión 1.0.0
+                </p>
               </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

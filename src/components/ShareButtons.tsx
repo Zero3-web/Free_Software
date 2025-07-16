@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Share2, Copy, Check } from 'lucide-react';
 import { useNotifications } from '../contexts/NotificationContext';
 
@@ -89,82 +88,68 @@ export default function ShareButtons({ title, url, description, className = '' }
 
   return (
     <div className={`relative ${className}`}>
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+      <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 px-4 py-2 bg-[var(--accent-primary)] text-white rounded-lg hover:bg-[var(--accent-secondary)] transition-colors"
+        className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
       >
         <Share2 className="w-4 h-4" />
         <span>Compartir</span>
-      </motion.button>
+      </button>
 
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            {/* Overlay */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/20 z-40"
-              onClick={() => setIsOpen(false)}
-            />
+      {isOpen && (
+        <>
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 bg-black/20 z-40"
+            onClick={() => setIsOpen(false)}
+          />
 
-            {/* Share Panel */}
-            <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.95 }}
-              className="absolute top-full left-0 mt-2 bg-[var(--bg-primary)] border border-[var(--border-primary)] rounded-xl shadow-xl z-50 p-4 min-w-80"
-            >
-              <div className="mb-3">
-                <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-1">
-                  Compartir {title}
-                </h3>
-                <p className="text-sm text-[var(--text-secondary)]">
-                  Elige tu plataforma favorita
-                </p>
-              </div>
+          {/* Share Panel */}
+          <div className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-xl z-50 p-4 min-w-80">
+            <div className="mb-3">
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                Compartir {title}
+              </h3>
+              <p className="text-sm text-gray-600">
+                Elige tu plataforma favorita
+              </p>
+            </div>
 
-              {/* Social Platforms */}
-              <div className="grid grid-cols-2 gap-2 mb-3">
-                {socialPlatforms.map((platform) => (
-                  <motion.button
-                    key={platform.name}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => handleShare(platform)}
-                    className={`flex items-center space-x-2 p-3 rounded-lg text-white transition-colors ${platform.color}`}
-                  >
-                    <span className="text-lg">{platform.icon}</span>
-                    <span className="font-medium">{platform.name}</span>
-                  </motion.button>
-                ))}
-              </div>
-
-              {/* Copy Link */}
-              <div className="border-t border-[var(--border-primary)] pt-3">
+            {/* Social Platforms */}
+            <div className="grid grid-cols-2 gap-2 mb-3">
+              {socialPlatforms.map((platform) => (
                 <button
-                  onClick={copyToClipboard}
-                  className="flex items-center justify-between w-full p-3 bg-[var(--bg-secondary)] hover:bg-[var(--bg-tertiary)] rounded-lg transition-colors"
+                  key={platform.name}
+                  onClick={() => handleShare(platform)}
+                  className={`flex items-center space-x-2 p-3 rounded-lg text-white transition-colors ${platform.color}`}
                 >
-                  <div className="flex items-center space-x-2">
-                    {copied ? (
-                      <Check className="w-4 h-4 text-green-500" />
-                    ) : (
-                      <Copy className="w-4 h-4 text-[var(--text-secondary)]" />
-                    )}
-                    <span className="text-[var(--text-primary)]">
-                      {copied ? '¡Copiado!' : 'Copiar enlace'}
-                    </span>
-                  </div>
+                  <span className="text-lg">{platform.icon}</span>
+                  <span className="font-medium">{platform.name}</span>
                 </button>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+              ))}
+            </div>
+
+            {/* Copy Link */}
+            <div className="border-t border-gray-200 pt-3">
+              <button
+                onClick={copyToClipboard}
+                className="flex items-center justify-between w-full p-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+              >
+                <div className="flex items-center space-x-2">
+                  {copied ? (
+                    <Check className="w-4 h-4 text-green-500" />
+                  ) : (
+                    <Copy className="w-4 h-4 text-gray-600" />
+                  )}
+                  <span className="text-gray-900">
+                    {copied ? '¡Copiado!' : 'Copiar enlace'}
+                  </span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

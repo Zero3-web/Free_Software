@@ -5,20 +5,20 @@ import Footer from '../components/Footer.astro';
 ---
 
 <Layout 
-  title="Sobre Nosotros - Software Gratis"
-  description="Conoce más sobre Software Gratis, la plataforma líder en distribución de software profesional gratuito y de código abierto."
+  title="About Us - Free Professional Software"
+  description="Learn more about Free Software, the leading platform for distributing professional free and open source software."
 >
-  <Header />
+  <Header slot="header" />
   <main>
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 py-20">
+    <section class="bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <div class="container-wide">
         <div class="max-w-4xl mx-auto text-center">
-          <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-            Sobre <span class="text-gradient-animate">Nosotros</span>
+          <h1 class="text-4xl md:text-6xl font-bold text-gray-900">
+            About <span class="text-gradient-animate">Us</span>
           </h1>
-          <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8">
-            Tu fuente confiable para software profesional gratuito
+          <p class="text-xl md:text-2xl text-gray-600">
+            Your reliable source for professional free software
           </p>
         </div>
       </div>
@@ -30,22 +30,22 @@ import Footer from '../components/Footer.astro';
         <div class="max-w-4xl mx-auto">
           <div class="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
-                Nuestra Misión
+              <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+                Our Mission
               </h2>
-              <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">
-                Democratizar el acceso a software profesional de alta calidad. Creemos que las herramientas profesionales no deberían ser un privilegio de unos pocos.
+              <p class="text-lg text-gray-600">
+                Democratize access to high-quality professional software. We believe professional tools shouldn't be a privilege of the few.
               </p>
-              <p class="text-lg text-gray-600 dark:text-gray-300">
-                Nuestro objetivo es conectar a usuarios, profesionales y estudiantes con las mejores alternativas gratuitas y de código abierto disponibles en el mercado.
+              <p class="text-lg text-gray-600">
+                Our goal is to connect users, professionals and students with the best free and open source alternatives available in the market.
               </p>
             </div>
             <div class="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-8 text-white">
-              <h3 class="text-2xl font-bold mb-4">¿Por qué Software Gratis?</h3>
+              <h3 class="text-2xl font-bold mb-4">Why Free Software?</h3>
               <ul class="space-y-3">
                 <li class="flex items-start space-x-3">
                   <span class="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Software verificado y libre de malware</span>
+                  <span>Verified and malware-free software</span>
                 </li>
                 <li class="flex items-start space-x-3">
                   <span class="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></span>
@@ -67,51 +67,51 @@ import Footer from '../components/Footer.astro';
     </section>
 
     <!-- Values Section -->
-    <section class="page-section bg-gray-50 dark:bg-gray-900">
+    <section class="page-section bg-gray-50">
       <div class="container-wide">
         <div class="max-w-6xl mx-auto">
           <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
               Nuestros Valores
             </h2>
-            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            <p class="text-xl text-gray-600">
               Los principios que guían cada decisión que tomamos
             </p>
           </div>
 
           <div class="grid md:grid-cols-3 gap-8">
             <div class="text-center p-6">
-              <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-16 h-16 bg-blue-100">
+                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
               </div>
-              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Calidad</h3>
-              <p class="text-gray-600 dark:text-gray-300">
+              <h3 class="text-xl font-bold text-gray-900">Calidad</h3>
+              <p class="text-gray-600">
                 Solo incluimos software que cumple con los más altos estándares de calidad y funcionalidad.
               </p>
             </div>
 
             <div class="text-center p-6">
-              <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-16 h-16 bg-green-100">
+                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                 </svg>
               </div>
-              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Seguridad</h3>
-              <p class="text-gray-600 dark:text-gray-300">
+              <h3 class="text-xl font-bold text-gray-900">Seguridad</h3>
+              <p class="text-gray-600">
                 Cada descarga es verificada y escaneada para garantizar la máxima seguridad para nuestros usuarios.
               </p>
             </div>
 
             <div class="text-center p-6">
-              <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg class="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-16 h-16 bg-purple-100">
+                <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                 </svg>
               </div>
-              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Comunidad</h3>
-              <p class="text-gray-600 dark:text-gray-300">
+              <h3 class="text-xl font-bold text-gray-900">Comunidad</h3>
+              <p class="text-gray-600">
                 Fomentamos una comunidad activa donde usuarios pueden compartir experiencias y recomendaciones.
               </p>
             </div>
@@ -124,10 +124,10 @@ import Footer from '../components/Footer.astro';
     <section class="page-section">
       <div class="container-wide">
         <div class="max-w-4xl mx-auto text-center">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
             Nuestro Compromiso
           </h2>
-          <p class="text-lg text-gray-600 dark:text-gray-300 mb-12">
+          <p class="text-lg text-gray-600">
             Trabajamos incansablemente para mantener actualizada nuestra biblioteca de software, 
             verificar cada descarga y proporcionar la mejor experiencia posible a nuestros usuarios.
           </p>

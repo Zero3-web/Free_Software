@@ -3,47 +3,96 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs';
+import ArticleLayout from '../../components/ArticleLayout';
+import SoftwareCard from '../../components/SoftwareCard';
+import ComparisonTable from '../../components/ComparisonTable';
 
 // Article metadata
 const article = {
-  title: 'Las Mejores Alternativas Gratuitas a Adobe Creative Suite',
-  description: 'Descubre herramientas profesionales que pueden reemplazar completamente la suite de Adobe sin costo alguno. Desde GIMP hasta Blender, te mostramos las mejores opciones.',
+  title: 'Best Free Alternatives to Adobe Creative Suite',
+  description: 'Discover professional tools that can completely replace Adobe\'s suite at no cost. From GIMP to Blender, we show you the best options.',
   author: {
-    name: 'Equipo Software Gratis',
-    email: 'info@software-gratis.com'
+    name: 'Opensoftware Team',
+    email: 'info@opensoftware.com'
   },
   publishedDate: '2024-01-15T10:00:00Z',
   modifiedDate: '2024-01-15T10:00:00Z',
-  category: 'Diseño',
-  tags: ['Adobe', 'GIMP', 'Krita', 'DaVinci Resolve', 'Blender', 'Alternativas gratuitas'],
+  category: 'Design',
+  tags: ['Adobe', 'GIMP', 'Krita', 'DaVinci Resolve', 'Blender', 'Free alternatives'],
   readingTime: '10 min',
   image: '/blog/adobe-alternatives.jpg'
 };
 
-// Related articles
-const relatedArticles = [
+// Comparison data for software
+const photoshopAlternatives = [
   {
-    title: 'Top 10 Editores de Video Gratuitos para Profesionales',
-    excerpt: 'Los mejores editores de video gratuitos que compiten directamente con software de pago.',
-    slug: 'top-editores-video-gratuitos-profesionales',
-    category: 'Video',
-    image: '/blog/video-editors.jpg'
+    name: 'GIMP',
+    free: true,
+    openSource: true,
+    rating: 4.5,
+    platforms: ['Windows', 'macOS', 'Linux'],
+    features: {
+      layers: true,
+      filters: true,
+      plugins: true,
+      batchProcessing: true,
+      colorManagement: 'Básico',
+      textTools: true,
+      vectorTools: 'Limitado'
+    },
+    pros: ['Completamente gratis', 'Gran comunidad', 'Extensible con plugins'],
+    cons: ['Curva de aprendizaje pronunciada', 'Interfaz menos intuitiva'],
+    bestFor: 'Usuarios avanzados que buscan máxima funcionalidad'
   },
   {
-    title: 'Guía Completa: Migrar de AutoCAD a FreeCAD',
-    excerpt: 'Todo lo que necesitas saber para hacer la transición de AutoCAD a FreeCAD sin perder productividad.',
-    slug: 'guia-migrar-autocad-freecad',
-    category: 'CAD',
-    image: '/blog/autocad-freecad.jpg'
+    name: 'Krita',
+    free: true,
+    openSource: true,
+    rating: 4.7,
+    platforms: ['Windows', 'macOS', 'Linux'],
+    features: {
+      layers: true,
+      filters: true,
+      plugins: true,
+      batchProcessing: false,
+      colorManagement: 'Avanzado',
+      textTools: 'Básico',
+      vectorTools: 'Básico'
+    },
+    pros: ['Perfecto para artistas', 'Pinceles naturales', 'Animación 2D'],
+    cons: ['Menos funciones de retoque fotográfico', 'Enfocado en arte digital'],
+    bestFor: 'Artistas digitales e ilustradores'
   },
   {
-    title: 'Cómo Configurar un Entorno de Desarrollo Completo y Gratuito',
-    excerpt: 'Desde IDEs hasta herramientas de deployment, crea tu entorno de desarrollo sin gastar un peso.',
-    slug: 'configurar-entorno-desarrollo-completo-gratuito',
-    category: 'Desarrollo',
-    image: '/blog/dev-environment.jpg'
+    name: 'Paint.NET',
+    free: true,
+    openSource: false,
+    rating: 4.3,
+    platforms: ['Windows'],
+    features: {
+      layers: true,
+      filters: true,
+      plugins: true,
+      batchProcessing: false,
+      colorManagement: 'Básico',
+      textTools: true,
+      vectorTools: false
+    },
+    pros: ['Fácil de usar', 'Interfaz intuitiva', 'Ligero'],
+    cons: ['Solo Windows', 'Funciones limitadas vs GIMP'],
+    bestFor: 'Principiantes y edición básica'
   }
 ];
+
+const featureLabels = {
+  layers: 'Soporte de capas',
+  filters: 'Filtros y efectos',
+  plugins: 'Soporte de plugins',
+  batchProcessing: 'Procesamiento por lotes',
+  colorManagement: 'Gestión de color',
+  textTools: 'Herramientas de texto',
+  vectorTools: 'Herramientas vectoriales'
+};
 
 // Schema.org structured data
 const articleSchema = {
@@ -83,6 +132,7 @@ const articleSchema = {
   title={`${article.title} - Software Gratis`}
   description={article.description}
 >
+  <Header slot="header" />
   <!-- Article Schema.org structured data -->
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)}></script>
   
@@ -113,8 +163,7 @@ const articleSchema = {
   }
   </script>
   
-  <Header />
-  
+
   <!-- Breadcrumbs -->
   <Breadcrumbs 
     items={[
@@ -122,166 +171,462 @@ const articleSchema = {
       { label: 'Blog', href: '/blog' },
       { label: article.title }
     ]}
-    className="container-wide py-4"
+    class="container-wide py-4"
     client:load
   />
-  <main id="main-content">
-    <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 py-20">
-      <div class="container-wide">
-        <div class="max-w-4xl mx-auto text-center">
-          <div class="mb-6">
-            <span class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm font-medium rounded-full">
-              {article.category}
-            </span>
-          </div>
-          <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-            Las Mejores <span class="text-gradient-animate">Alternativas Gratuitas</span> a Adobe Creative Suite
-          </h1>
-          <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
-            {article.description}
-          </p>
-          <div class="flex items-center justify-center space-x-6 text-sm text-gray-500 dark:text-gray-400">
-            <div class="flex items-center space-x-2">
-              <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                <span class="text-white text-xs font-bold">SG</span>
-              </div>
-              <span>Por {article.author.name}</span>
-            </div>
-            <span>•</span>
-            <span>{new Date(article.publishedDate).toLocaleDateString('es-ES', { 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })}</span>
-            <span>•</span>
-            <span>{article.readingTime} lectura</span>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Article Content -->
-    <article class="page-section">
-      <div class="container-wide">
-        <div class="max-w-4xl mx-auto">
-          <div class="prose prose-lg dark:prose-invert max-w-none">
-            <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
-              Adobe Creative Suite ha sido durante mucho tiempo el estándar de la industria para diseñadores, fotógrafos y creadores de contenido. Sin embargo, las suscripciones mensuales pueden resultar costosas, especialmente para freelancers, estudiantes o pequeñas empresas. Afortunadamente, existe una amplia gama de alternativas gratuitas que ofrecen funcionalidades similares y, en algunos casos, incluso superiores.
+  <main id="main-content" class="page-section">
+    <div class="container-wide">
+      <ArticleLayout
+        title={article.title}
+        excerpt={article.description}
+        author={article.author.name}
+        publishedDate={article.publishedDate}
+        readingTime={article.readingTime}
+        category={article.category}
+        tags={article.tags}
+        client:load
+      >
+        <div class="prose-content">
+          {/* Introduction */}
+          <div class="bg-gradient-to-r from-blue-50 to-purple-50">
+            <p class="text-lg leading-relaxed text-gray-700">
+              Adobe Creative Suite ha dominado la industria creativa durante décadas, pero las suscripciones mensuales pueden resultar prohibitivas para freelancers, estudiantes y pequeñas empresas. Afortunadamente, el ecosistema de software libre ofrece alternativas excepcionales que no solo igualan, sino que en algunos casos superan las capacidades de Adobe.
             </p>
+            <div class="mt-6 p-4 bg-blue-100">
+              <p class="text-sm font-medium text-blue-800">
+                💡 <strong>Dato importante:</strong> La Creative Suite de Adobe puede costar más de $50 USD mensuales. Las alternativas que presentamos pueden ahorrarte más de $600 anuales.
+              </p>
+            </div>
+          </div>
 
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 mt-12">
+          {/* Photoshop Alternatives Section */}
+          <div class="mb-16">
+            <h2 class="text-4xl font-bold bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent mb-8">
               🎨 Alternativas a Adobe Photoshop
             </h2>
+            
+            <p class="text-lg text-gray-700">
+              Photoshop es el estándar para edición de imágenes, pero estas alternativas gratuitas ofrecen herramientas profesionales sin costo alguno.
+            </p>
+            
+            <SoftwareCard
+              name="GIMP"
+              description="GNU Image Manipulation Program es la alternativa más completa y poderosa a Photoshop. Con más de 25 años de desarrollo, ofrece herramientas profesionales para retoque fotográfico, diseño gráfico y arte digital."
+              features={[
+                'Soporte completo de capas con modos de fusión',
+                'Más de 100 filtros y efectos incorporados',
+                'Herramientas de selección avanzadas',
+                'Soporte para formatos RAW',
+                'Sistema de plugins extensible',
+                'Herramientas de clonado y reparación',
+                'Gestión avanzada de color',
+                'Scripting con Python y Scheme'
+              ]}
+              pros={[
+                'Funcionalidad comparable a Photoshop',
+                'Comunidad activa y documentación extensa',
+                'Soporte para tabletas gráficas',
+                'Actualizaciones regulares'
+              ]}
+              cons={[
+                'Interfaz menos pulida que Photoshop',
+                'Curva de aprendizaje pronunciada',
+                'Algunos filtros requieren plugins adicionales'
+              ]}
+              rating={4.5}
+              category="Editor de Imágenes"
+              isOpenSource={true}
+              platforms={['Windows', 'macOS', 'Linux']}
+              downloadUrl="https://www.gimp.org/downloads/"
+              websiteUrl="https://www.gimp.org/"
+              client:load
+            />
 
-            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 mb-8 shadow-lg">
-              <div class="flex items-start space-x-4">
-                <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <span class="text-2xl font-bold text-purple-600 dark:text-purple-400">G</span>
-                </div>
-                <div>
-                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">GIMP (GNU Image Manipulation Program)</h3>
-                  <p class="text-gray-600 dark:text-gray-300 mb-4">
-                    GIMP es probablemente la alternativa más conocida y completa a Photoshop. Ofrece herramientas avanzadas de edición de imágenes, soporte para capas, filtros, y una amplia gama de pinceles y herramientas de selección.
-                  </p>
-                  <div class="flex flex-wrap gap-2">
-                    <span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs rounded-full">Gratis</span>
-                    <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs rounded-full">Open Source</span>
-                    <span class="px-2 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 text-xs rounded-full">Multiplataforma</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <SoftwareCard
+              name="Krita"
+              description="Diseñado específicamente para artistas digitales, Krita es la herramienta perfecta para ilustración, concept art y animación 2D. Su enfoque en el arte digital lo convierte en una opción superior para creativos."
+              features={[
+                'Más de 100 pinceles predefinidos profesionales',
+                'Motor de pinceles avanzado y personalizable',
+                'Herramientas de animación 2D integradas',
+                'Soporte nativo para tabletas Wacom',
+                'Asistentes de dibujo (perspectiva, elipses, etc.)',
+                'Gestión avanzada de capas',
+                'Modos de fusión y máscaras',
+                'Exportación a múltiples formatos'
+              ]}
+              pros={[
+                'Interfaz optimizada para artistas',
+                'Pinceles de calidad profesional',
+                'Excelente soporte para tablets',
+                'Animación 2D incluida'
+              ]}
+              cons={[
+                'Menos opciones para retoque fotográfico',
+                'Herramientas de texto limitadas',
+                'Enfoque específico en arte digital'
+              ]}
+              rating={4.7}
+              category="Arte Digital"
+              isOpenSource={true}
+              platforms={['Windows', 'macOS', 'Linux']}
+              downloadUrl="https://krita.org/en/download/krita-desktop/"
+              websiteUrl="https://krita.org/"
+              client:load
+            />
 
-            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 mb-8 shadow-lg">
-              <div class="flex items-start space-x-4">
-                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <span class="text-2xl font-bold text-blue-600 dark:text-blue-400">K</span>
-                </div>
-                <div>
-                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Krita</h3>
-                  <p class="text-gray-600 dark:text-gray-300 mb-4">
-                    Especialmente diseñado para artistas digitales y ilustradores. Krita ofrece pinceles naturales, herramientas de animación 2D, y una interfaz intuitiva perfecta para dibujo digital y pintura.
-                  </p>
-                  <div class="flex flex-wrap gap-2">
-                    <span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs rounded-full">Gratis</span>
-                    <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 text-xs rounded-full">Para Artistas</span>
-                    <span class="px-2 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 text-xs rounded-full">Animación 2D</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <SoftwareCard
+              name="Paint.NET"
+              description="Una alternativa ligera y fácil de usar para Windows, perfecta para usuarios que buscan funcionalidad esencial sin la complejidad de GIMP. Ideal para edición rápida y retoque básico."
+              features={[
+                'Interfaz intuitiva y fácil de aprender',
+                'Soporte de capas con transparencia',
+                'Efectos y filtros incorporados',
+                'Herramientas de selección inteligente',
+                'Soporte para plugins de terceros',
+                'Corrección automática de color',
+                'Herramientas de texto avanzadas',
+                'Historial de deshacer ilimitado'
+              ]}
+              pros={[
+                'Muy fácil de aprender',
+                'Interfaz familiar para usuarios de Windows',
+                'Rendimiento excelente',
+                'Archivo de instalación pequeño'
+              ]}
+              cons={[
+                'Solo disponible para Windows',
+                'Funciones limitadas comparado con GIMP',
+                'No tiene herramientas vectoriales'
+              ]}
+              rating={4.3}
+              category="Editor Simple"
+              platforms={['Windows']}
+              downloadUrl="https://www.getpaint.net/download.html"
+              websiteUrl="https://www.getpaint.net/"
+              client:load
+            />
+          </div>
 
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 mt-12">
+          {/* Comparison Table */}
+          <ComparisonTable
+            title="Comparación de Alternativas a Photoshop"
+            items={photoshopAlternatives}
+            featureLabels={featureLabels}
+            client:load
+          />
+
+          {/* Video Editing Section */}
+          <div class="mb-16">
+            <h2 class="text-4xl font-bold bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent mb-8">
               🎬 Alternativas a Adobe Premiere Pro
             </h2>
+            
+            <p class="text-lg text-gray-700">
+              La edición de video profesional ya no requiere software costoso. Estas alternativas ofrecen capacidades de nivel Hollywood completamente gratis.
+            </p>
 
-            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 mb-8 shadow-lg">
-              <div class="flex items-start space-x-4">
-                <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <span class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">D</span>
-                </div>
-                <div>
-                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">DaVinci Resolve</h3>
-                  <p class="text-gray-600 dark:text-gray-300 mb-4">
-                    Considerado por muchos como el mejor editor de video gratuito disponible. Usado por estudios de Hollywood, ofrece edición profesional, corrección de color avanzada, efectos visuales y audio post-producción.
-                  </p>
-                  <div class="flex flex-wrap gap-2">
-                    <span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs rounded-full">Gratis</span>
-                    <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-xs rounded-full">Profesional</span>
-                    <span class="px-2 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 text-xs rounded-full">Hollywood</span>
+            <SoftwareCard
+              name="DaVinci Resolve"
+              description="Considerado el mejor editor de video gratuito del mundo, DaVinci Resolve es usado por estudios de Hollywood y ofrece herramientas profesionales de edición, corrección de color, efectos visuales y post-producción de audio."
+              features={[
+                'Editor de video multipista profesional',
+                'Corrección de color nivel Hollywood',
+                'Efectos visuales y composición',
+                'Edición de audio multipista con Fairlight',
+                'Soporte para 8K y formatos RAW',
+                'Colaboración en tiempo real',
+                'Exportación a múltiples formatos',
+                'GPU acceleration para renderizado rápido'
+              ]}
+              pros={[
+                'Calidad profesional comparable a Avid y Premiere',
+                'Herramientas de color líderes en la industria',
+                'Completamente gratis (versión Studio con funciones adicionales)',
+                'Usado en producciones de Hollywood'
+              ]}
+              cons={[
+                'Requiere hardware potente',
+                'Curva de aprendizaje empinada',
+                'Interfaz compleja para principiantes'
+              ]}
+              rating={4.8}
+              category="Editor Profesional"
+              platforms={['Windows', 'macOS', 'Linux']}
+              downloadUrl="https://www.blackmagicdesign.com/products/davinciresolve"
+              websiteUrl="https://www.blackmagicdesign.com/products/davinciresolve"
+              client:load
+            />
+
+            <SoftwareCard
+              name="Shotcut"
+              description="Editor de video gratuito y de código abierto con soporte para una amplia gama de formatos. Ideal para usuarios intermedios que buscan una solución completa sin complejidades innecesarias."
+              features={[
+                'Soporte nativo para formatos 4K',
+                'Edición multipista de video y audio',
+                'Más de 200 filtros y efectos',
+                'Corrección de color avanzada',
+                'Keyframing para animaciones',
+                'Proxy editing para mejor rendimiento',
+                'Exportación a múltiples formatos',
+                'Interfaz personalizable'
+              ]}
+              pros={[
+                'Completamente gratuito y open source',
+                'No requiere importación de archivos',
+                'Soporte excelente para formatos',
+                'Actualizaciones frecuentes'
+              ]}
+              cons={[
+                'Interfaz puede ser confusa inicialmente',
+                'Menos efectos que Premiere Pro',
+                'Renderizado puede ser lento sin GPU'
+              ]}
+              rating={4.4}
+              category="Editor Intermedio"
+              isOpenSource={true}
+              platforms={['Windows', 'macOS', 'Linux']}
+              downloadUrl="https://shotcut.org/download/"
+              websiteUrl="https://shotcut.org/"
+              client:load
+            />
+          </div>
+
+          {/* Design Tools Section */}
+          <div class="mb-16">
+            <h2 class="text-4xl font-bold bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent mb-8">
+              🎯 Alternativas a Adobe Illustrator
+            </h2>
+            
+            <p class="text-lg text-gray-700">
+              Para diseño vectorial y creación de logos, estas herramientas ofrecen capacidades profesionales sin las limitaciones de suscripción.
+            </p>
+
+            <SoftwareCard
+              name="Inkscape"
+              description="El editor de gráficos vectoriales más completo y poderoso disponible de forma gratuita. Utilizado por diseñadores profesionales para crear logos, ilustraciones y arte vectorial complejo."
+              features={[
+                'Herramientas de dibujo vectorial completas',
+                'Soporte para SVG estándar',
+                'Texto en rutas y formas',
+                'Gradientes y patrones avanzados',
+                'Extensiones y scripts personalizados',
+                'Trazado automático de bitmaps',
+                'Exportación a múltiples formatos',
+                'Herramientas de medición precisas'
+              ]}
+              pros={[
+                'Funcionalidad comparable a Illustrator',
+                'Formato SVG estándar abierto',
+                'Gran comunidad de usuarios',
+                'Extensiones para funcionalidad adicional'
+              ]}
+              cons={[
+                'Puede ser lento con archivos complejos',
+                'Interfaz menos pulida que Illustrator',
+                'Curva de aprendizaje pronunciada'
+              ]}
+              rating={4.5}
+              category="Editor Vectorial"
+              isOpenSource={true}
+              platforms={['Windows', 'macOS', 'Linux']}
+              downloadUrl="https://inkscape.org/release/"
+              websiteUrl="https://inkscape.org/"
+              client:load
+            />
+          </div>
+
+          {/* Migration Tips */}
+          <div class="bg-gradient-to-r from-green-50 to-blue-50">
+            <h3 class="text-2xl font-bold text-gray-900">
+              🚀 Consejos para Migrar desde Adobe
+            </h3>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <h4 class="text-lg font-semibold text-gray-800">
+                  Planificación de la Migración
+                </h4>
+                <ul class="space-y-2 text-gray-700">
+                  <li class="flex items-start gap-2">
+                    <span class="text-green-500 font-bold">✓</span>
+                    <span>Evalúa qué funciones de Adobe usas realmente</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-green-500 font-bold">✓</span>
+                    <span>Haz copias de seguridad de todos tus proyectos</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-green-500 font-bold">✓</span>
+                    <span>Exporta en formatos compatibles (PSD, AI, etc.)</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-green-500 font-bold">✓</span>
+                    <span>Planifica tiempo para aprender las nuevas herramientas</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div>
+                <h4 class="text-lg font-semibold text-gray-800">
+                  Proceso de Aprendizaje
+                </h4>
+                <ul class="space-y-2 text-gray-700">
+                  <li class="flex items-start gap-2">
+                    <span class="text-blue-500 font-bold">▶</span>
+                    <span>Comienza con tutoriales básicos en YouTube</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-blue-500 font-bold">▶</span>
+                    <span>Únete a comunidades de usuarios de cada software</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-blue-500 font-bold">▶</span>
+                    <span>Practica replicando proyectos anteriores</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-blue-500 font-bold">▶</span>
+                    <span>Instala todas las alternativas y pruébalas</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Conclusion */}
+          <div class="bg-gray-50">
+            <h3 class="text-2xl font-bold text-gray-900">
+              💰 Ahorro Económico Anual
+            </h3>
+            <div class="grid md:grid-cols-3 gap-6 text-center">
+              <div class="bg-white">
+                <div class="text-3xl font-bold text-red-600 mb-2">$659.88</div>
+                <div class="text-sm text-gray-600">Adobe Creative Cloud</div>
+                <div class="text-xs text-gray-500">Plan anual completo</div>
+              </div>
+              <div class="bg-white">
+                <div class="text-3xl font-bold text-green-600 mb-2">$0.00</div>
+                <div class="text-sm text-gray-600">Alternativas Gratuitas</div>
+                <div class="text-xs text-gray-500">Todas las herramientas mencionadas</div>
+              </div>
+              <div class="bg-gradient-to-r from-green-500 to-blue-500 text-white p-6 rounded-xl">
+                <div class="text-3xl font-bold mb-2">100%</div>
+                <div class="text-sm">Ahorro Total</div>
+                <div class="text-xs opacity-90">Más de $650 anuales</div>
+              </div>
+            </div>
+          </div>
+
+          {/* FAQ Section */}
+          <div class="mb-12">
+            <h3 class="text-2xl font-bold text-gray-900">
+              ❓ Preguntas Frecuentes
+            </h3>
+            
+            <div class="space-y-6">
+              <div class="bg-white">
+                <h4 class="font-semibold text-gray-900">
+                  ¿Puedo abrir archivos PSD en GIMP?
+                </h4>
+                <p class="text-gray-700">
+                  Sí, GIMP puede abrir archivos PSD de Photoshop, aunque algunas características avanzadas como efectos de capa específicos pueden no ser completamente compatibles. Se recomienda guardar una copia en formato XCF (nativo de GIMP) para mejor compatibilidad.
+                </p>
+              </div>
+              
+              <div class="bg-white">
+                <h4 class="font-semibold text-gray-900">
+                  ¿Son estas alternativas realmente gratuitas para uso comercial?
+                </h4>
+                <p class="text-gray-700">
+                  Sí, todas las alternativas mencionadas son completamente gratuitas para uso personal y comercial. GIMP, Krita, Inkscape y Shotcut son de código abierto. DaVinci Resolve tiene una versión gratuita muy completa y Paint.NET es gratuito con donaciones opcionales.
+                </p>
+              </div>
+              
+              <div class="bg-white">
+                <h4 class="font-semibold text-gray-900">
+                  ¿Qué tan difícil es aprender estas herramientas viniendo de Adobe?
+                </h4>
+                <p class="text-gray-700">
+                  La curva de aprendizaje varía según la herramienta. Paint.NET es la más fácil de aprender, mientras que GIMP y DaVinci Resolve requieren más tiempo. Sin embargo, la mayoría de conceptos son transferibles, y existen excelentes tutoriales gratuitos en línea. Se estima que puedes ser productivo en 2-4 semanas con práctica regular.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Call to Action */}
+          <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl p-8 text-center">
+            <h3 class="text-2xl font-bold mb-4">
+              ¿Listo para Hacer el Cambio?
+            </h3>
+            <p class="text-lg mb-6 opacity-90">
+              Descarga estas herramientas gratuitas y comienza a ahorrar más de $650 anuales
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+              <a 
+                href="https://www.gimp.org/downloads/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+              >
+                Descargar GIMP
+              </a>
+              <a 
+                href="https://krita.org/en/download/krita-desktop/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+              >
+                Descargar Krita
+              </a>
+              <a 
+                href="https://www.blackmagicdesign.com/products/davinciresolve" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+              >
+                Descargar DaVinci
+              </a>
+            </div>
+          </div>
+        </div>
+      </ArticleLayout>
+    </div>
+  </main>
+                    <span class="px-2 py-1 bg-purple-100">Fácil de usar</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 mb-8 shadow-lg">
-              <div class="flex items-start space-x-4">
-                <div class="w-16 h-16 bg-orange-100 dark:bg-orange-900 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <span class="text-2xl font-bold text-orange-600 dark:text-orange-400">S</span>
-                </div>
-                <div>
-                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Shotcut</h3>
-                  <p class="text-gray-600 dark:text-gray-300 mb-4">
-                    Editor de video gratuito y de código abierto que soporta una amplia gama de formatos. Ideal para principiantes y usuarios intermedios que buscan una solución completa sin complejidades innecesarias.
-                  </p>
-                  <div class="flex flex-wrap gap-2">
-                    <span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs rounded-full">Gratis</span>
-                    <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs rounded-full">Open Source</span>
-                    <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 text-xs rounded-full">Fácil de usar</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 mt-12">
+            <h2 class="text-3xl font-bold text-gray-900">
               🎯 Alternativas a Adobe Illustrator
             </h2>
 
-            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 mb-8 shadow-lg">
+            <div class="bg-white">
               <div class="flex items-start space-x-4">
-                <div class="w-16 h-16 bg-teal-100 dark:bg-teal-900 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <span class="text-2xl font-bold text-teal-600 dark:text-teal-400">I</span>
+                <div class="w-16 h-16 bg-teal-100">
+                  <span class="text-2xl font-bold text-teal-600">I</span>
                 </div>
                 <div>
-                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Inkscape</h3>
-                  <p class="text-gray-600 dark:text-gray-300 mb-4">
+                  <h3 class="text-xl font-bold text-gray-900">Inkscape</h3>
+                  <p class="text-gray-600">
                     Editor de gráficos vectoriales gratuito que rivaliza directamente con Illustrator. Perfecto para crear logotipos, iconos, ilustraciones y cualquier tipo de arte vectorial con herramientas profesionales.
                   </p>
                   <div class="flex flex-wrap gap-2">
-                    <span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs rounded-full">Gratis</span>
-                    <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs rounded-full">Open Source</span>
-                    <span class="px-2 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 text-xs rounded-full">Vectorial</span>
+                    <span class="px-2 py-1 bg-green-100">Gratis</span>
+                    <span class="px-2 py-1 bg-blue-100">Open Source</span>
+                    <span class="px-2 py-1 bg-indigo-100">Vectorial</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 mt-12">
+            <h2 class="text-3xl font-bold text-gray-900">
               💡 Consejos para la Migración
             </h2>
 
-            <div class="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-l-4 border-yellow-400 p-6 mb-8">
+            <div class="bg-gradient-to-r from-yellow-50 to-orange-50">
               <div class="flex items-start space-x-3">
                 <div class="flex-shrink-0">
                   <svg class="w-5 h-5 text-yellow-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -289,10 +634,10 @@ const articleSchema = {
                   </svg>
                 </div>
                 <div>
-                  <h3 class="text-lg font-semibold text-yellow-800 dark:text-yellow-200 mb-2">
+                  <h3 class="text-lg font-semibold text-yellow-800">
                     Curva de Aprendizaje
                   </h3>
-                  <p class="text-yellow-700 dark:text-yellow-300">
+                  <p class="text-yellow-700">
                     Aunque estas alternativas ofrecen funcionalidades similares, cada una tiene su propia interfaz y flujo de trabajo. Dedica tiempo a aprender las particularidades de cada herramienta.
                   </p>
                 </div>
@@ -300,9 +645,9 @@ const articleSchema = {
             </div>
 
             <div class="grid md:grid-cols-2 gap-6 mb-8">
-              <div class="bg-white dark:bg-gray-800 rounded-lg p-6">
-                <h4 class="font-semibold text-gray-900 dark:text-white mb-3">✅ Ventajas</h4>
-                <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+              <div class="bg-white">
+                <h4 class="font-semibold text-gray-900">✅ Ventajas</h4>
+                <ul class="text-sm text-gray-600">
                   <li>• Completamente gratuitas</li>
                   <li>• Actualizaciones regulares</li>
                   <li>• Comunidades activas</li>
@@ -310,9 +655,9 @@ const articleSchema = {
                   <li>• Código abierto (mayoría)</li>
                 </ul>
               </div>
-              <div class="bg-white dark:bg-gray-800 rounded-lg p-6">
-                <h4 class="font-semibold text-gray-900 dark:text-white mb-3">⚠️ Consideraciones</h4>
-                <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+              <div class="bg-white">
+                <h4 class="font-semibold text-gray-900">⚠️ Consideraciones</h4>
+                <ul class="text-sm text-gray-600">
                   <li>• Interfaces diferentes</li>
                   <li>• Menos plugins comerciales</li>
                   <li>• Curva de aprendizaje</li>
@@ -337,16 +682,16 @@ const articleSchema = {
           </div>
 
           <!-- Author Info -->
-          <div class="max-w-4xl mx-auto mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+          <div class="max-w-4xl mx-auto mt-12 pt-8 border-t border-gray-200">
             <div class="flex items-center space-x-4">
               <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                 <span class="text-white text-xl font-bold">SG</span>
               </div>
               <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                <h3 class="text-lg font-semibold text-gray-900">
                   {article.author.name}
                 </h3>
-                <p class="text-gray-600 dark:text-gray-300 text-sm">
+                <p class="text-gray-600">
                   Publicado el {new Date(article.publishedDate).toLocaleDateString('es-ES', { 
                     year: 'numeric', 
                     month: 'long', 
@@ -355,7 +700,7 @@ const articleSchema = {
                 </p>
                 <div class="flex flex-wrap gap-2 mt-2">
                   {article.tags.map(tag => (
-                    <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">
+                    <span class="px-2 py-1 bg-gray-100">
                       {tag}
                     </span>
                   ))}
@@ -368,44 +713,102 @@ const articleSchema = {
     </article>
 
     <!-- Related Articles -->
-    <section class="page-section bg-gray-50 dark:bg-gray-900">
+    <section class="page-section bg-gray-50">
       <div class="container-wide">
-        <div class="max-w-6xl mx-auto">
-          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+        <div class="max-w-6xl mx-auto text-center">
+          <h2 class="text-3xl font-bold text-gray-900">
             Artículos Relacionados
           </h2>
           <div class="grid md:grid-cols-3 gap-8">
-            {relatedArticles.map((relatedArticle, index) => (
-              <article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                <div class="h-48 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 flex items-center justify-center">
-                  <div class="text-center text-gray-600 dark:text-gray-300">
-                    <svg class="w-12 h-12 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
-                    </svg>
-                    <p class="text-sm font-medium">{relatedArticle.category}</p>
-                  </div>
+            <article class="bg-white">
+              <div class="h-48 bg-gradient-to-br from-red-400 to-pink-500 flex items-center justify-center">
+                <div class="text-center text-white">
+                  <svg class="w-12 h-12 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                  </svg>
+                  <p class="text-sm font-medium">Video</p>
                 </div>
-                <div class="p-6">
-                  <div class="mb-3">
-                    <span class="inline-block px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-full">
-                      {relatedArticle.category}
-                    </span>
-                  </div>
-                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                    {relatedArticle.title}
-                  </h3>
-                  <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
-                    {relatedArticle.excerpt}
-                  </p>
-                  <a 
-                    href={`/blog/${relatedArticle.slug}`}
-                    class="text-blue-600 dark:text-blue-400 font-medium hover:underline"
-                  >
-                    Leer más →
-                  </a>
+              </div>
+              <div class="p-6">
+                <div class="mb-3">
+                  <span class="inline-block px-3 py-1 bg-red-100">
+                    Video
+                  </span>
                 </div>
-              </article>
-            ))}
+                <h3 class="text-xl font-bold text-gray-900">
+                  Top 10 Editores de Video Gratuitos
+                </h3>
+                <p class="text-gray-600">
+                  Los mejores editores de video gratuitos que compiten directamente con software de pago.
+                </p>
+                <a 
+                  href="/blog/top-editores-video-gratuitos-profesionales"
+                  class="text-blue-600"
+                >
+                  Leer más →
+                </a>
+              </div>
+            </article>
+
+            <article class="bg-white">
+              <div class="h-48 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center">
+                <div class="text-center text-white">
+                  <svg class="w-12 h-12 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                  </svg>
+                  <p class="text-sm font-medium">CAD</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <div class="mb-3">
+                  <span class="inline-block px-3 py-1 bg-green-100">
+                    CAD
+                  </span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900">
+                  Migración de AutoCAD a FreeCAD
+                </h3>
+                <p class="text-gray-600">
+                  Todo lo que necesitas saber para migrar de AutoCAD a FreeCAD sin perder productividad.
+                </p>
+                <a 
+                  href="/blog/guia-migrar-autocad-freecad"
+                  class="text-blue-600"
+                >
+                  Leer más →
+                </a>
+              </div>
+            </article>
+
+            <article class="bg-white">
+              <div class="h-48 bg-gradient-to-br from-purple-400 to-indigo-500 flex items-center justify-center">
+                <div class="text-center text-white">
+                  <svg class="w-12 h-12 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                  </svg>
+                  <p class="text-sm font-medium">Desarrollo</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <div class="mb-3">
+                  <span class="inline-block px-3 py-1 bg-purple-100">
+                    Desarrollo
+                  </span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900">
+                  Entorno de Desarrollo Completo Gratuito
+                </h3>
+                <p class="text-gray-600">
+                  Desde IDEs hasta herramientas de deployment, crea tu entorno sin gastar dinero.
+                </p>
+                <a 
+                  href="/blog/configurar-entorno-desarrollo-completo-gratuito"
+                  class="text-blue-600"
+                >
+                  Leer más →
+                </a>
+              </div>
+            </article>
           </div>
         </div>
       </div>

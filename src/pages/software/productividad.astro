@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import NotificationRoot from '../../components/NotificationRoot';
 import { products } from '../../data/products';
 
 const productivityProducts = products.filter(product => 
@@ -10,25 +11,26 @@ const productivityProducts = products.filter(product =>
   product.tags?.includes('oficina') ||
   product.name.toLowerCase().includes('office') ||
   product.name.toLowerCase().includes('word') ||
-  product.name.toLowerCase().includes('excel')
+  product.name.toLowerCase().includes('excel') ||
+  product.category === 'Productivity'
 );
 ---
 
 <Layout 
-  title="Software de Productividad - Gratis"
-  description="Descarga las mejores herramientas de productividad gratuitas: suites ofimáticas, editores de texto, gestores de tareas y más."
+  title="Productivity Software - Free Professional Tools"
+  description="Download the best free productivity software: office suites, text editors, task managers, and more professional tools."
 >
-  <Header />
+  <Header slot="header" />
   <main>
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 py-20">
+    <section class="bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <div class="container-wide">
         <div class="max-w-4xl mx-auto text-center">
-          <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-            Software de <span class="text-gradient-animate">Productividad</span>
+          <h1 class="text-4xl md:text-6xl font-bold text-gray-900">
+            <span class="text-gradient-animate">Productivity</span> Software
           </h1>
-          <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8">
-            Herramientas profesionales para aumentar tu productividad sin costo alguno
+          <p class="text-xl md:text-2xl text-gray-600">
+            Professional tools to boost your productivity at no cost
           </p>
         </div>
       </div>
@@ -39,88 +41,44 @@ const productivityProducts = products.filter(product =>
       <div class="container-wide">
         <div class="max-w-6xl mx-auto">
           <div class="grid md:grid-cols-3 gap-8 mb-16">
-            <div class="text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-              <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="text-center p-6 bg-white">
+              <div class="w-16 h-16 bg-blue-100">
+                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                 </svg>
               </div>
-              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Suites Ofimáticas</h3>
-              <p class="text-gray-600 dark:text-gray-300">Alternativas completas a Microsoft Office</p>
+              <h3 class="text-xl font-bold text-gray-900">Office Suites</h3>
+              <p class="text-gray-600">Complete alternatives to Microsoft Office</p>
             </div>
 
-            <div class="text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-              <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="text-center p-6 bg-white">
+              <div class="w-16 h-16 bg-green-100">
+                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
                 </svg>
               </div>
-              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Gestión de Tareas</h3>
-              <p class="text-gray-600 dark:text-gray-300">Organiza tu trabajo y proyectos eficientemente</p>
+              <h3 class="text-xl font-bold text-gray-900">Task Management</h3>
+              <p class="text-gray-600">Organize your work and projects efficiently</p>
             </div>
 
-            <div class="text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-              <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg class="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="text-center p-6 bg-white">
+              <div class="w-16 h-16 bg-purple-100">
+                <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                 </svg>
               </div>
-              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Editores de Texto</h3>
-              <p class="text-gray-600 dark:text-gray-300">Herramientas avanzadas para escritura y edición</p>
+              <h3 class="text-xl font-bold text-gray-900">Text Editors</h3>
+              <p class="text-gray-600">Advanced tools for writing and editing</p>
             </div>
           </div>
 
-          <!-- Software Destacado -->
+          <!-- Featured Software -->
           <div class="mb-16">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-              Software Destacado
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
+              Featured Software
             </h2>
             
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {productivityProducts.slice(0, 6).map((product) => (
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                  <div class="h-48 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 flex items-center justify-center">
-                    <div class="w-20 h-20 bg-white dark:bg-gray-800 rounded-xl flex items-center justify-center shadow-lg">
-                      <span class="text-2xl font-bold text-gray-800 dark:text-white">
-                        {product.name.substring(0, 2)}
-                      </span>
-                    </div>
-                  </div>
-                  <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                      {product.name}
-                    </h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
-                      {product.description}
-                    </p>
-                    <div class="flex items-center justify-between">
-                      <div class="flex items-center space-x-2">
-                        <div class="flex items-center">
-                          {[...Array(5)].map((_, i) => (
-                            <svg
-                              class={`w-4 h-4 ${i < product.rating ? 'text-yellow-400' : 'text-gray-300'}`}
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                            </svg>
-                          ))}
-                        </div>
-                        <span class="text-sm text-gray-500 dark:text-gray-400">
-                          {product.rating}/5
-                        </span>
-                      </div>
-                      <a 
-                        href={`/software/${product.id}`}
-                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                      >
-                        Ver detalles
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <NotificationRoot products={productivityProducts} page="grid" client:load />
           </div>
 
           <!-- CTA Section -->

@@ -1,5 +1,3 @@
-import { motion } from 'framer-motion';
-
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg';
   animated?: boolean;
@@ -13,17 +11,11 @@ export default function Logo({ size = 'md', animated = true, className = '' }: L
     lg: 'w-12 h-12'
   };
 
-  const LogoComponent = animated ? motion.div : 'div';
-  const animationProps = animated ? {
-    whileHover: { scale: 1.05, rotate: 5 },
-    whileTap: { scale: 0.95 },
-    transition: { type: 'spring' as const, stiffness: 300, damping: 20 }
-  } : {};
+  const animationClasses = animated ? 'hover:scale-105 hover:rotate-1 transition-all duration-300 transform' : '';
 
   return (
-    <LogoComponent
-      {...animationProps}
-      className={`${sizeClasses[size]} bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg ${className}`}
+    <div
+      className={`${sizeClasses[size]} bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg ${animationClasses} ${className}`}
     >
       <svg 
         className="w-3/4 h-3/4 text-white" 
@@ -46,6 +38,6 @@ export default function Logo({ size = 'md', animated = true, className = '' }: L
           opacity="0.6"
         />
       </svg>
-    </LogoComponent>
+    </div>
   );
 }
