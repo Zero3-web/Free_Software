@@ -1,0 +1,261 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs';
+import NewsletterSignupWithNotifications from '../../components/NewsletterSignupWithNotifications';
+
+const article = {
+  title: "Las Mejores Alternativas Gratuitas a Microsoft Office",
+  description: "Descubre las mejores suites ofimáticas gratuitas que pueden reemplazar perfectamente a Microsoft Office para tus necesidades de productividad.",
+  author: "Carlos Mendoza",
+  publishDate: "2024-12-15",
+  readTime: "8 min",
+  category: "Productividad",
+  tags: ["Office", "Productividad", "LibreOffice", "OpenOffice", "Documentos"],
+  image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=1200&h=630&fit=crop&auto=format"
+};
+
+const relatedArticles = [
+  {
+    title: "Alternativas Gratuitas a Adobe Creative Suite",
+    href: "/blog/alternativas-gratuitas-adobe-creative-suite",
+    description: "Descubre potentes herramientas gratuitas para diseño gráfico, edición de video y más."
+  },
+  {
+    title: "Guía Completa: Migrar de AutoCAD a FreeCAD",
+    href: "/blog/guia-migrar-autocad-freecad",
+    description: "Todo lo que necesitas saber para hacer la transición exitosa a FreeCAD."
+  }
+];
+---
+
+<Layout title={`${article.title} | Software Gratis`} description={article.description}>
+  
+  <Header slot="header" />
+  
+  <!-- Breadcrumbs -->
+  <Breadcrumbs 
+    items={[
+      { label: 'Inicio', href: '/' },
+      { label: 'Blog', href: '/blog' },
+      { label: article.title }
+    ]}
+    class="container-wide py-4"
+    client:load
+  />
+  
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-blue-50 via-white to-green-50">
+      <div class="container-wide">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-8">
+            <span class="inline-block px-3 py-1 bg-green-100">
+              {article.category}
+            </span>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900">
+              {article.title}
+            </h1>
+            <p class="text-xl text-gray-600">
+              {article.description}
+            </p>
+            
+            <!-- Article Meta -->
+            <div class="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-500">
+              <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
+                  <span class="text-white text-xs font-bold">{article.author.split(' ').map(n => n[0]).join('')}</span>
+                </div>
+                <span>Por {article.author}</span>
+              </div>
+              <div class="flex items-center space-x-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <span>{new Date(article.publishDate).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              </div>
+              <div class="flex items-center space-x-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span>{article.readTime} de lectura</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Featured Image -->
+          <div class="rounded-2xl overflow-hidden shadow-2xl mb-12">
+            <img 
+              src={article.image} 
+              alt={article.title}
+              class="w-full h-96 object-cover"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Article Content -->
+    <article class="py-16" itemscope itemtype="https://schema.org/BlogPosting">
+      <!-- Schema.org microdata -->
+      <meta itemprop="headline" content={article.title} />
+      <meta itemprop="description" content={article.description} />
+      <meta itemprop="author" content={article.author} />
+      <meta itemprop="datePublished" content={article.publishDate} />
+      <meta itemprop="image" content={article.image} />
+      
+      <div class="container-wide">
+        <div class="max-w-4xl mx-auto">
+          <div class="prose prose-lg">
+            
+            <h2>¿Por qué buscar alternativas a Microsoft Office?</h2>
+            
+            <p>Microsoft Office ha sido durante décadas el estándar de facto para suites ofimáticas, pero su modelo de suscripción y alto costo ha llevado a muchos usuarios y empresas a buscar alternativas gratuitas y de código abierto que ofrezcan funcionalidades similares sin comprometer la calidad.</p>
+            
+            <p>Las alternativas gratuitas no solo te permiten ahorrar dinero, sino que también te brindan:</p>
+            
+            <ul>
+              <li><strong>Libertad de uso</strong>: Sin restricciones de licencia ni suscripciones mensuales</li>
+              <li><strong>Compatibilidad</strong>: Soporte para formatos de Microsoft Office</li>
+              <li><strong>Código abierto</strong>: Transparencia y seguridad en el desarrollo</li>
+              <li><strong>Personalización</strong>: Posibilidad de modificar y adaptar según tus necesidades</li>
+            </ul>
+
+            <h2>LibreOffice: La alternativa más completa</h2>
+            
+            <p>LibreOffice es probablemente la mejor alternativa gratuita a Microsoft Office. Desarrollada por The Document Foundation, esta suite incluye todas las herramientas que necesitas para la productividad diaria.</p>
+            
+            <h3>Componentes de LibreOffice:</h3>
+            
+            <ul>
+              <li><strong>Writer</strong>: Procesador de textos (alternativa a Word)</li>
+              <li><strong>Calc</strong>: Hoja de cálculo (alternativa a Excel)</li>
+              <li><strong>Impress</strong>: Presentaciones (alternativa a PowerPoint)</li>
+              <li><strong>Draw</strong>: Dibujo vectorial y diagramas</li>
+              <li><strong>Base</strong>: Base de datos (alternativa a Access)</li>
+              <li><strong>Math</strong>: Editor de fórmulas matemáticas</li>
+            </ul>
+            
+            <p>LibreOffice se destaca por su excelente compatibilidad con formatos de Microsoft Office, interfaz intuitiva y constante desarrollo activo de la comunidad.</p>
+
+            <h2>Apache OpenOffice: El clásico confiable</h2>
+            
+            <p>Apache OpenOffice es otra excelente opción que ha sido una alternativa popular durante años. Aunque su desarrollo es más lento que LibreOffice, sigue siendo una opción sólida y estable.</p>
+            
+            <p>OpenOffice incluye Writer, Calc, Impress, Draw, Base y Math, con funcionalidades muy similares a LibreOffice. Es especialmente recomendado para usuarios que prefieren estabilidad sobre las últimas características.</p>
+
+            <h2>Alternativas específicas por aplicación</h2>
+            
+            <h3>Para procesamiento de textos:</h3>
+            
+            <ul>
+              <li><strong>Google Docs</strong>: Excelente para colaboración en tiempo real</li>
+              <li><strong>OnlyOffice</strong>: Gran compatibilidad con formatos de Microsoft</li>
+              <li><strong>WPS Office</strong>: Interfaz muy similar a Microsoft Office</li>
+            </ul>
+            
+            <h3>Para hojas de cálculo:</h3>
+            
+            <ul>
+              <li><strong>Google Sheets</strong>: Ideal para trabajo colaborativo</li>
+              <li><strong>Gnumeric</strong>: Ligero y eficiente para Linux</li>
+              <li><strong>EtherCalc</strong>: Hoja de cálculo web colaborativa</li>
+            </ul>
+            
+            <h3>Para presentaciones:</h3>
+            
+            <ul>
+              <li><strong>Google Slides</strong>: Facilita la colaboración y el acceso desde cualquier lugar</li>
+              <li><strong>Canva</strong>: Perfecto para presentaciones visuales atractivas</li>
+              <li><strong>Prezi</strong>: Presentaciones dinámicas y no lineales</li>
+            </ul>
+
+            <h2>Consejos para la migración</h2>
+            
+            <p>Si decides hacer el cambio a una alternativa gratuita, aquí tienes algunos consejos para una transición exitosa:</p>
+            
+            <ol>
+              <li><strong>Instala y prueba</strong>: Descarga LibreOffice y pruébalo con tus documentos existentes</li>
+              <li><strong>Aprende los formatos</strong>: Familiarízate con ODF (Open Document Format) y las opciones de exportación</li>
+              <li><strong>Configura la compatibilidad</strong>: Ajusta las opciones para guardar por defecto en formatos de Microsoft</li>
+              <li><strong>Explora las extensiones</strong>: LibreOffice tiene muchas extensiones que pueden mejorar tu productividad</li>
+              <li><strong>Capacita a tu equipo</strong>: Si es para uso empresarial, asegúrate de que todos reciban la capacitación necesaria</li>
+            </ol>
+
+            <h2>Ventajas de usar alternativas gratuitas</h2>
+            
+            <p>Además del ahorro económico obvio, las alternativas gratuitas ofrecen beneficios importantes:</p>
+            
+            <ul>
+              <li><strong>Sin vendor lock-in</strong>: No dependes de una sola empresa</li>
+              <li><strong>Estándares abiertos</strong>: Formatos que perdurarán en el tiempo</li>
+              <li><strong>Comunidad activa</strong>: Soporte de una comunidad global de desarrolladores</li>
+              <li><strong>Actualizaciones regulares</strong>: Mejoras constantes sin costo adicional</li>
+              <li><strong>Personalización</strong>: Adapta la suite a tus necesidades específicas</li>
+            </ul>
+
+            <h2>Conclusión</h2>
+            
+            <p>Las alternativas gratuitas a Microsoft Office han madurado significativamente y ofrecen funcionalidades que satisfacen las necesidades de la mayoría de usuarios. LibreOffice se posiciona como la opción más completa, mientras que las soluciones en la nube como Google Workspace son ideales para trabajo colaborativo.</p>
+            
+            <p>La elección dependerá de tus necesidades específicas, pero lo cierto es que ya no es necesario pagar suscripciones costosas para tener acceso a herramientas ofimáticas de calidad profesional.</p>
+            
+          </div>
+          
+          <!-- Tags -->
+          <div class="mt-12 pt-8 border-t border-gray-200">
+            <div class="flex flex-wrap gap-2">
+              {article.tags.map(tag => (
+                <span class="px-3 py-1 bg-gray-100">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Related Articles -->
+    <section class="py-16 bg-gray-50">
+      <div class="container-wide">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-gray-900">
+            Artículos Relacionados
+          </h2>
+          
+          <div class="grid md:grid-cols-2 gap-8">
+            {relatedArticles.map(relatedArticle => (
+              <a 
+                href={relatedArticle.href}
+                class="group block bg-white"
+              >
+                <div class="p-6">
+                  <h3 class="text-xl font-semibold text-gray-900">
+                    {relatedArticle.title}
+                  </h3>
+                  <p class="text-gray-600">
+                    {relatedArticle.description}
+                  </p>
+                  <div class="mt-4 flex items-center text-blue-600">
+                    <span>Leer más</span>
+                    <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Signup -->
+    <NewsletterSignupWithNotifications client:load />
+  </main>
+
+  <Footer />
+</Layout>

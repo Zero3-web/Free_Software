@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumb from '../../components/Breadcrumb';
+import NotificationRoot from '../../components/NotificationRoot';
+import ProductDetailWrapper from '../../components/ProductDetailWrapper';
+import { products } from '../../data/products';
+
+export async function getStaticPaths() {
+  return products.map((product) => ({
+  params: { id: product.id },
+  props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+
+// Breadcrumb items
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Software', href: '/#software' },
+  { label: product.name, href: `/software/${product.id}`, current: true }
+];
+---
+
+<Layout title={`${product.name} - Descarga Gratuita | Software Gratis`} description={product.description}>
+   <Header slot="header" />
+   <main class="page-transition">
+     <div class="container-wide py-8">
+       <Breadcrumb items={breadcrumbItems} client:load />
+       <ProductDetailWrapper product={product} client:load />
+     </div>
+   </main>
+   <Footer />
+</Layout>

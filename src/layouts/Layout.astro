@@ -1,0 +1,233 @@
+---
+import '../styles/global.css';
+import SEOHead from '../components/SEOHead.astro';
+
+export interface Props {
+	title?: string;
+	description?: string;
+	keywords?: string;
+	type?: 'website' | 'article' | 'product' | 'software';
+	image?: string;
+	noindex?: boolean;
+}
+
+const { 
+	title = "Download Free Software - Best Free Programs 2024", 
+	description = "Download the best free software and open source programs. Adobe alternatives, Office suites, AutoCAD alternatives and more premium applications for free. Safe and virus-free.",
+	keywords = "free software, free programs, download free, adobe alternatives, free office, photoshop alternatives",
+	type = "website",
+	image,
+	noindex = false
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="manifest" href="/manifest.json" />
+		<meta name="generator" content={Astro.generator} />
+		
+		<!-- Enhanced mobile optimization -->
+		<meta name="theme-color" content="#2563eb" />
+		<meta name="mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+		<meta name="format-detection" content="telephone=no" />
+		
+		<!-- Fonts with enhanced loading -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+		
+		<!-- Preload critical resources -->
+		<link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2" as="font" type="font/woff2" crossorigin>
+		
+		<SEOHead 
+			title={title}
+			description={description}
+			keywords={keywords}
+			type={type}
+			image={image}
+			noindex={noindex}
+		/>
+		
+		<!-- Performance Optimization -->
+		<link rel="dns-prefetch" href="//www.google-analytics.com">
+		<link rel="dns-prefetch" href="//fonts.googleapis.com">
+		<link rel="dns-prefetch" href="//fonts.gstatic.com">
+
+	</head>
+	<body class="font-sans bg-white overflow-x-hidden">
+		<!-- Enhanced AdSense Left Sidebar - Responsive -->
+		<div class="hidden xl:block fixed left-0 top-0 w-32 2xl:w-40 h-full z-10">
+			<div class="sticky top-20 p-2 2xl:p-4">
+				<!-- AdSense Placeholder - Invisible but responsive -->
+				<div class="w-full h-[600px] bg-gray-100 rounded-lg opacity-0"></div>
+			</div>
+		</div>
+
+		<!-- Enhanced AdSense Right Sidebar - Responsive -->
+		<div class="hidden xl:block fixed right-0 top-0 w-32 2xl:w-40 h-full z-10">
+			<div class="sticky top-20 p-2 2xl:p-4">
+				<!-- AdSense Placeholder - Invisible but responsive -->
+				<div class="w-full h-[600px] bg-gray-100 rounded-lg opacity-0"></div>
+			</div>
+		</div>
+
+		<!-- Header/Nav always full width -->
+		<slot name="header" />
+		
+		<!-- Enhanced Main Content Container with responsive margins -->
+		<div class="xl:mx-32 2xl:mx-40 min-h-screen">
+			<slot />
+		</div>
+
+		<!-- Enhanced JavaScript for responsive behavior -->
+		<script>
+			// Enhanced responsive behavior
+			function handleResize() {
+				const body = document.body;
+				const width = window.innerWidth;
+				
+				// Add responsive classes based on screen size
+				body.classList.remove('mobile', 'tablet', 'desktop', 'wide');
+				
+				if (width < 768) {
+					body.classList.add('mobile');
+				} else if (width < 1024) {
+					body.classList.add('tablet');
+				} else if (width < 1280) {
+					body.classList.add('desktop');
+				} else {
+					body.classList.add('wide');
+				}
+			}
+
+			// Initial call
+			handleResize();
+			
+			// Listen for resize events
+			window.addEventListener('resize', handleResize);
+			
+			// Enhanced touch support for mobile
+			if ('ontouchstart' in window) {
+				document.body.classList.add('touch-device');
+			}
+
+			// Prevent zoom on input focus for iOS
+			if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+				const viewport = document.querySelector('meta[name="viewport"]');
+				if (viewport) {
+					let content = viewport.getAttribute('content');
+					viewport.setAttribute('content', content + ', user-scalable=no');
+				}
+			}
+
+			// Enhanced accessibility features
+			const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+			if (mediaQuery.matches) {
+				document.body.classList.add('reduced-motion');
+			}
+
+			// Dark mode support detection
+			const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+			if (darkModeQuery.matches) {
+				document.body.classList.add('dark-mode-preferred');
+			}
+
+			// High contrast mode detection
+			const highContrastQuery = window.matchMedia('(prefers-contrast: high)');
+			if (highContrastQuery.matches) {
+				document.body.classList.add('high-contrast-preferred');
+			}
+		</script>
+	</body>
+</html>
+
+<style>
+	/* Enhanced responsive layout styles */
+	body {
+		overflow-x: hidden;
+		scroll-behavior: smooth;
+	}
+
+	/* Improved mobile layout */
+	@media (max-width: 767px) {
+		body.mobile {
+			font-size: 14px;
+		}
+	}
+
+	/* Enhanced tablet layout */
+	@media (min-width: 768px) and (max-width: 1023px) {
+		body.tablet {
+			font-size: 15px;
+		}
+	}
+
+	/* Desktop optimizations */
+	@media (min-width: 1024px) {
+		body.desktop,
+		body.wide {
+			font-size: 16px;
+		}
+	}
+
+	/* Touch device optimizations */
+	.touch-device {
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+
+	.touch-device input,
+	.touch-device textarea,
+	.touch-device [contenteditable] {
+		-webkit-user-select: text;
+		-khtml-user-select: text;
+		-moz-user-select: text;
+		-ms-user-select: text;
+		user-select: text;
+	}
+
+	/* Enhanced reduced motion support */
+	.reduced-motion * {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+
+	/* High contrast mode enhancements */
+	.high-contrast-preferred {
+		contrast: 150%;
+	}
+
+	/* Safe area support for notched devices */
+	@supports (padding: max(0px)) {
+		body {
+			padding-left: max(0px, env(safe-area-inset-left));
+			padding-right: max(0px, env(safe-area-inset-right));
+		}
+	}
+
+	/* Print optimizations */
+	@media print {
+		.hidden { display: none !important; }
+		body { font-size: 12pt; }
+		* { color: black !important; background: white !important; }
+	}
+
+	/* Enhanced focus management */
+	@media (prefers-reduced-motion: no-preference) {
+		html {
+			scroll-behavior: smooth;
+		}
+	}
+</style>

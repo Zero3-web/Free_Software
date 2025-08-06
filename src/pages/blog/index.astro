@@ -1,0 +1,299 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import NewsletterSignupWithNotifications from '../../components/NewsletterSignupWithNotifications';
+
+const posts = [
+  {
+    id: 1,
+    title: 'Best Free Alternatives to Adobe Creative Suite',
+    excerpt: 'Discover professional tools that can completely replace Adobe\'s suite at no cost, from GIMP to Blender.',
+    date: '2024-01-15',
+    category: 'Design',
+    image: '/blog/adobe-alternatives.jpg',
+    slug: 'alternativas-gratuitas-adobe-creative-suite',
+    author: 'Opensoftware Team',
+    readingTime: '10 min'
+  },
+  {
+    id: 2,
+    title: 'Herramientas de Productividad Gratuitas que Revolucionarán tu Flujo de Trabajo',
+    excerpt: 'Descubre las mejores herramientas gratuitas para gestión de proyectos, automatización y colaboración que usan las empresas más exitosas.',
+    date: '2024-12-26',
+    category: 'Productivity',
+    image: '/blog/productivity-tools.jpg',
+    slug: 'herramientas-productividad-gratuitas-workflow',
+    author: 'Equipo de Productividad',
+    readingTime: '15 min'
+  },
+  {
+    id: 3,
+    title: 'Las Mejores Herramientas de Ciberseguridad Gratuitas para Proteger tu Negocio',
+    excerpt: 'Descubre las herramientas de ciberseguridad más efectivas y gratuitas para proteger tu empresa y datos de amenazas cibernéticas.',
+    date: '2024-12-25',
+    category: 'Security',
+    image: '/blog/cybersecurity-tools.jpg',
+    slug: 'herramientas-ciberseguridad-gratuitas-empresas',
+    author: 'Equipo de Seguridad Digital',
+    readingTime: '12 min'
+  },
+  {
+    id: 4,
+    title: 'Free Web Development Tools: Build Professional Sites at No Cost',
+    excerpt: 'Discover the best free tools for web development, from code editors to frameworks and deployment.',
+    date: '2024-12-20',
+    category: 'Web Development',
+    image: '/blog/web-development.jpg',
+    slug: 'herramientas-desarrollo-web-gratuitas',
+    author: 'Ana García',
+    readingTime: '10 min'
+  },
+  {
+    id: 5,
+    title: 'Best Free Alternatives to Microsoft Office',
+    excerpt: 'Explore the best free office suites that can perfectly replace Microsoft Office for all your needs.',
+    date: '2024-12-15',
+    category: 'Productivity',
+    image: '/blog/office-alternatives.jpg',
+    slug: 'mejores-alternativas-microsoft-office',
+    author: 'Carlos Mendoza',
+    readingTime: '8 min'
+  },
+  {
+    id: 6,
+    title: 'Complete Guide: Migrating from AutoCAD to FreeCAD',
+    excerpt: 'Everything you need to know to transition from AutoCAD to FreeCAD without losing productivity.',
+    date: '2024-01-10',
+    category: 'CAD',
+    image: '/blog/autocad-freecad.jpg',
+    slug: 'guia-migrar-autocad-freecad',
+    author: 'Opensoftware Team',
+    readingTime: '8 min'
+  }
+];
+
+const categories = [
+  { name: 'All', slug: 'all', count: posts.length },
+  { name: 'Design', slug: 'design', count: posts.filter(p => p.category === 'Design').length },
+  { name: 'Productivity', slug: 'productivity', count: posts.filter(p => p.category === 'Productivity').length },
+  { name: 'Security', slug: 'security', count: posts.filter(p => p.category === 'Security').length },
+  { name: 'Web Development', slug: 'web-development', count: posts.filter(p => p.category === 'Web Development').length },
+  { name: 'CAD', slug: 'cad', count: posts.filter(p => p.category === 'CAD').length }
+];
+
+// Schema.org structured data for blog
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "Blog - Opensoftware",
+  "description": "Articles, guides and tutorials about free software, open source alternatives and digital productivity.",
+  "url": "https://opensoftware.com/blog",
+  "author": {
+    "@type": "Organization",
+    "name": "Opensoftware"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Opensoftware",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://opensoftware.com/logo.png"
+    }
+  },
+  "blogPost": posts.map(post => ({
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.excerpt,
+    "url": `https://opensoftware.com/blog/${post.slug}`,
+    "datePublished": `${post.date}T10:00:00Z`,
+    "author": {
+      "@type": "Person",
+      "name": post.author
+    },
+    "articleSection": post.category
+  }))
+};
+---
+
+<Layout 
+  title="Blog - Opensoftware"
+  description="Articles, guides and tutorials about free software, open source alternatives and digital productivity."
+>
+  <!-- Blog Schema.org structured data -->
+  <script type="application/ld+json" set:html={JSON.stringify(blogSchema)}></script>
+  
+  <Header slot="header" />
+  <main>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 sm:py-16 lg:py-20">
+      <div class="container-wide px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-responsive-3xl sm:text-responsive-4xl lg:text-responsive-5xl xl:text-6xl font-bold text-gray-900 mb-4 sm:mb-6">
+            Our <span class="text-gradient-animate">Blog</span>
+          </h1>
+          <p class="text-responsive-lg sm:text-responsive-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto">
+            Guides, tutorials and the latest news about free software
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog Posts -->
+    <section class="page-section py-12 sm:py-16 lg:py-20">
+      <div class="container-wide px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+          
+          <!-- Search and Filter -->
+          <div class="mb-8 sm:mb-12">
+            <div class="max-w-2xl mx-auto mb-6 sm:mb-8">
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg class="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                  </svg>
+                </div>
+                <input 
+                  type="text" 
+                  placeholder="Search articles..." 
+                  class="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                >
+              </div>
+            </div>
+            
+            <!-- Categories -->
+            <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 sm:mb-8">
+              {categories.map((category) => (
+                <button class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 border border-gray-300 hover:border-blue-500 hover:bg-blue-50 hover:text-blue-600 touch-manipulation">
+                  <span class="hidden sm:inline">{category.name}</span>
+                  <span class="sm:hidden">{category.name.slice(0, 8)}{category.name.length > 8 ? '...' : ''}</span>
+                  <span class="ml-1">({category.count})</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <!-- Featured Post -->
+          <div class="mb-12 sm:mb-16">
+            <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div class="flex flex-col lg:flex-row">
+                <div class="lg:w-1/2">
+                  <div class="h-48 sm:h-64 lg:h-full bg-gradient-to-br from-green-500 to-blue-600 flex items-center justify-center">
+                    <div class="text-center text-white p-6 sm:p-8">
+                      <h3 class="text-xl sm:text-2xl font-bold mb-2 sm:mb-4">Artículo Destacado</h3>
+                      <p class="text-base sm:text-lg opacity-90">Herramientas de Productividad Gratuitas</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="lg:w-1/2 p-6 sm:p-8">
+                  <div class="mb-3 sm:mb-4">
+                    <span class="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs sm:text-sm font-medium">
+                      Productividad
+                    </span>
+                  </div>
+                  <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-3 sm:mb-4 line-clamp-2">
+                    Herramientas de Productividad Gratuitas que Revolucionarán tu Flujo de Trabajo
+                  </h2>
+                  <p class="text-gray-600 mb-4 sm:mb-6 line-clamp-3">
+                    Descubre las mejores herramientas gratuitas para gestión de proyectos, automatización y colaboración que utilizan las empresas más exitosas del mundo.
+                  </p>
+                  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div class="text-xs sm:text-sm text-gray-500">
+                      <div class="flex flex-wrap items-center gap-1 sm:gap-2">
+                        <span>Por Equipo de Productividad</span>
+                        <span class="hidden sm:inline">•</span>
+                        <span>26 de diciembre, 2024</span>
+                        <span class="hidden sm:inline">•</span>
+                        <span>15 min lectura</span>
+                      </div>
+                    </div>
+                    <a 
+                      href="/blog/herramientas-productividad-gratuitas-workflow" 
+                      class="text-blue-600 hover:text-blue-700 font-medium text-sm sm:text-base transition-colors duration-200 flex items-center group"
+                    >
+                      Leer más 
+                      <svg class="w-4 h-4 ml-1 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- Posts Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {posts.slice(1).map((post) => (
+              <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-[1.02] group">
+                <div class="h-40 sm:h-48 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center relative overflow-hidden">
+                  <div class="text-center text-gray-600 transition-transform duration-300 group-hover:scale-110">
+                    <svg class="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                    </svg>
+                    <p class="text-xs sm:text-sm font-medium">{post.category}</p>
+                  </div>
+                </div>
+                <div class="p-4 sm:p-6">
+                  <div class="mb-3">
+                    <span class="inline-block px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-xs font-medium">
+                      {post.category}
+                    </span>
+                  </div>
+                  <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
+                    {post.title}
+                  </h3>
+                  <p class="text-gray-600 mb-4 line-clamp-3 text-sm sm:text-base">
+                    {post.excerpt}
+                  </p>
+                  <div class="flex flex-col gap-2">
+                    <div class="text-xs sm:text-sm text-gray-500">
+                      <div class="flex flex-wrap items-center gap-1">
+                        <span class="truncate">By {post.author}</span>
+                        <span class="hidden sm:inline">•</span>
+                        <span class="text-xs">{new Date(post.date).toLocaleDateString('en-US', { 
+                          year: 'numeric', 
+                          month: 'short', 
+                          day: 'numeric' 
+                        })}</span>
+                        <span class="hidden sm:inline">•</span>
+                        <span class="text-xs">{post.readingTime}</span>
+                      </div>
+                    </div>
+                    <a 
+                      href={`/blog/${post.slug}`}
+                      class="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors duration-200 flex items-center group/link"
+                    >
+                      Read article
+                      <svg class="w-4 h-4 ml-1 transition-transform duration-200 group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="page-section">
+      <div class="container-wide">
+        <div class="max-w-4xl mx-auto">
+          <NewsletterSignupWithNotifications 
+            client:load
+            title="Stay up to date with the latest news!"
+            description="Receive exclusive articles, tips and the best free software alternatives directly to your email."
+          />
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

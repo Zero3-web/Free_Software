@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import HeroSection from '../components/HeroSection';
+import NotificationRoot from '../components/NotificationRoot';
+import Footer from '../components/Footer.astro';
+import { products } from '../data/products';
+---
+
+<Layout 
+	title="Download Free Software - Best Free Programs 2024"
+	description="Download the best free software and open source programs. Adobe alternatives, Office suites, and more premium applications for free. Safe downloads."
+	keywords="free software, free programs, download free, adobe alternatives, free office, photoshop alternatives"
+>
+	<Header slot="header" />
+	<main id="main-content">
+		<HeroSection client:load />
+		<NotificationRoot products={products} page="grid" client:load />
+	</main>
+	<Footer />
+</Layout>

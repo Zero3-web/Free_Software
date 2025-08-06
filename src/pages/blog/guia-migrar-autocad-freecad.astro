@@ -1,0 +1,387 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs';
+
+// Article metadata
+const article = {
+  title: 'Guía Completa: Migrar de AutoCAD a FreeCAD',
+  description: 'Todo lo que necesitas saber para hacer la transición de AutoCAD a FreeCAD sin perder productividad.',
+  author: {
+    name: 'Equipo Software Gratis',
+    email: 'info@software-gratis.com'
+  },
+  publishedDate: '2024-01-10T10:00:00Z',
+  modifiedDate: '2024-01-10T10:00:00Z',
+  category: 'CAD',
+  tags: ['AutoCAD', 'FreeCAD', 'CAD', 'Migración', 'Tutorial', 'Diseño 3D'],
+  readingTime: '8 min',
+  image: '/blog/autocad-freecad.jpg'
+};
+
+// Related articles
+const relatedArticles = [
+  {
+    title: 'Las Mejores Alternativas Gratuitas a Adobe Creative Suite',
+    excerpt: 'Descubre herramientas profesionales que pueden reemplazar completamente la suite de Adobe sin costo alguno.',
+    slug: 'alternativas-gratuitas-adobe-creative-suite',
+    category: 'Diseño',
+    image: '/blog/adobe-alternatives.jpg'
+  },
+  {
+    title: 'Top 10 Editores de Video Gratuitos para Profesionales',
+    excerpt: 'Los mejores editores de video gratuitos que compiten directamente con software de pago.',
+    slug: 'top-editores-video-gratuitos-profesionales',
+    category: 'Video',
+    image: '/blog/video-editors.jpg'
+  },
+  {
+    title: 'Cómo Configurar un Entorno de Desarrollo Completo y Gratuito',
+    excerpt: 'Desde IDEs hasta herramientas de deployment, crea tu entorno de desarrollo sin gastar un peso.',
+    slug: 'configurar-entorno-desarrollo-completo-gratuito',
+    category: 'Desarrollo',
+    image: '/blog/dev-environment.jpg'
+  }
+];
+
+// Schema.org structured data
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": article.title,
+  "description": article.description,
+  "image": `https://software-gratis.com${article.image}`,
+  "author": {
+    "@type": "Person",
+    "name": article.author.name,
+    "email": article.author.email
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Software Gratis",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://software-gratis.com/logo.png"
+    }
+  },
+  "datePublished": article.publishedDate,
+  "dateModified": article.modifiedDate,
+  "articleSection": article.category,
+  "keywords": article.tags.join(', '),
+  "wordCount": "2000",
+  "timeRequired": article.readingTime,
+  "url": `https://software-gratis.com/blog/guia-migrar-autocad-freecad`,
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `https://software-gratis.com/blog/guia-migrar-autocad-freecad`
+  }
+};
+---
+
+<Layout 
+  title={`${article.title} - Software Gratis`}
+  description={article.description}
+>
+  <!-- Article Schema.org structured data -->
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)}></script>
+  
+  <!-- Breadcrumbs Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://software-gratis.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://software-gratis.com/blog"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Guía Completa: Migrar de AutoCAD a FreeCAD"
+      }
+    ]
+  }
+  </script>
+  
+  <Header slot="header" />
+  
+  <!-- Breadcrumbs -->
+  <Breadcrumbs 
+    items={[
+      { label: 'Inicio', href: '/' },
+      { label: 'Blog', href: '/blog' },
+      { label: article.title }
+    ]}
+    class="container-wide py-4"
+    client:load
+  />
+
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-green-50 via-white to-blue-50">
+      <div class="container-wide">
+        <div class="max-w-4xl mx-auto text-center">
+          <div class="mb-6">
+            <span class="inline-block px-3 py-1 bg-green-100">
+              {article.category}
+            </span>
+          </div>
+          <h1 class="text-4xl md:text-6xl font-bold text-gray-900">
+            Guía Completa: <span class="text-gradient-animate">Migrar de AutoCAD a FreeCAD</span>
+          </h1>
+          <p class="text-xl text-gray-600">
+            {article.description}
+          </p>
+          <div class="flex items-center justify-center space-x-6 text-sm text-gray-500">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 bg-gradient-to-br from-green-500 to-blue-600 rounded-full flex items-center justify-center">
+                <span class="text-white text-xs font-bold">SG</span>
+              </div>
+              <span>Por {article.author.name}</span>
+            </div>
+            <span>•</span>
+            <span>{new Date(article.publishedDate).toLocaleDateString('es-ES', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}</span>
+            <span>•</span>
+            <span>{article.readingTime} lectura</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Article Content -->
+    <article class="page-section">
+      <div class="container-wide">
+        <div class="max-w-4xl mx-auto">
+          <div class="prose prose-lg">
+            <p class="text-xl text-gray-600">
+              AutoCAD ha sido durante décadas la herramienta estándar para el diseño asistido por computadora (CAD). Sin embargo, sus elevados costos de licencia han llevado a muchos profesionales y empresas a buscar alternativas. FreeCAD emerge como una opción sólida y completamente gratuita que puede manejar la mayoría de tareas que realizas en AutoCAD.
+            </p>
+
+            <h2 class="text-3xl font-bold text-gray-900">
+              ¿Por qué migrar a FreeCAD?
+            </h2>
+
+            <div class="bg-gradient-to-r from-green-50 to-blue-50">
+              <h3 class="text-lg font-semibold text-green-800">
+                💰 Ventajas económicas
+              </h3>
+              <ul class="text-green-700">
+                <li>• Completamente gratuito - sin costos de licencia</li>
+                <li>• Código abierto - transparente y auditable</li>
+                <li>• Sin restricciones de tiempo o funcionalidad</li>
+                <li>• Actualizaciones gratuitas de por vida</li>
+              </ul>
+            </div>
+
+            <h2 class="text-3xl font-bold text-gray-900">
+              Preparación para la migración
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+              <div class="bg-white">
+                <h4 class="font-semibold text-gray-900">
+                  <span class="w-8 h-8 bg-blue-100">1</span>
+                  Auditoría de archivos
+                </h4>
+                <p class="text-sm text-gray-600">
+                  Identifica qué archivos DWG necesitarás migrar y qué funcionalidades específicas utilizas más frecuentemente.
+                </p>
+              </div>
+
+              <div class="bg-white">
+                <h4 class="font-semibold text-gray-900">
+                  <span class="w-8 h-8 bg-green-100">2</span>
+                  Formación del equipo
+                </h4>
+                <p class="text-sm text-gray-600">
+                  Programa sesiones de training para tu equipo. FreeCAD tiene un enfoque diferente pero igualmente potente.
+                </p>
+              </div>
+            </div>
+
+            <h2 class="text-3xl font-bold text-gray-900">
+              Diferencias clave entre AutoCAD y FreeCAD
+            </h2>
+
+            <div class="overflow-x-auto mb-8">
+              <table class="w-full border-collapse border border-gray-300">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th class="border border-gray-300">Aspecto</th>
+                    <th class="border border-gray-300">AutoCAD</th>
+                    <th class="border border-gray-300">FreeCAD</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white">
+                  <tr>
+                    <td class="border border-gray-300">Interfaz</td>
+                    <td class="border border-gray-300">Ribbon, línea de comandos</td>
+                    <td class="border border-gray-300">Workbenches modulares</td>
+                  </tr>
+                  <tr class="bg-gray-50">
+                    <td class="border border-gray-300">Modelado 3D</td>
+                    <td class="border border-gray-300">Básico a intermedio</td>
+                    <td class="border border-gray-300">Avanzado, paramétrico</td>
+                  </tr>
+                  <tr>
+                    <td class="border border-gray-300">Scripting</td>
+                    <td class="border border-gray-300">AutoLISP, VBA</td>
+                    <td class="border border-gray-300">Python integrado</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h2 class="text-3xl font-bold text-gray-900">
+              Flujo de trabajo paso a paso
+            </h2>
+
+            <div class="space-y-6 mb-8">
+              <div class="bg-white">
+                <div class="flex items-start space-x-4">
+                  <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <span class="text-white text-lg font-bold">1</span>
+                  </div>
+                  <div>
+                    <h3 class="text-xl font-bold text-gray-900">Instalación y configuración</h3>
+                    <p class="text-gray-600">
+                      Descarga FreeCAD desde su sitio oficial y configura las preferencias básicas según tu flujo de trabajo habitual.
+                    </p>
+                    <div class="bg-gray-50">
+                      <h4 class="font-semibold text-gray-900">Configuraciones recomendadas:</h4>
+                      <ul class="text-sm text-gray-600">
+                        <li>• Activar snap y grid por defecto</li>
+                        <li>• Configurar unidades según tu región</li>
+                        <li>• Personalizar atajos de teclado</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white">
+                <div class="flex items-start space-x-4">
+                  <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <span class="text-white text-lg font-bold">2</span>
+                  </div>
+                  <div>
+                    <h3 class="text-xl font-bold text-gray-900">Conversión de archivos</h3>
+                    <p class="text-gray-600">
+                      FreeCAD puede importar archivos DWG, aunque con algunas limitaciones. Para mejores resultados, considera usar DXF como formato intermedio.
+                    </p>
+                    <div class="bg-yellow-50">
+                      <h4 class="font-semibold text-yellow-800">⚠️ Nota importante:</h4>
+                      <p class="text-sm text-yellow-700">
+                        Los archivos complejos pueden requerir ajustes manuales después de la importación.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-blue-600 to-green-600 rounded-2xl p-8 text-white text-center">
+              <h3 class="text-2xl font-bold mb-4">¿Listo para hacer el cambio?</h3>
+              <p class="text-lg mb-6">
+                La migración a FreeCAD puede ahorrarte miles de euros en licencias.
+              </p>
+              <a 
+                href="/software" 
+                class="inline-block px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                Descarga FreeCAD Gratis
+              </a>
+            </div>
+          </div>
+
+          <!-- Author Info -->
+          <div class="max-w-4xl mx-auto mt-12 pt-8 border-t border-gray-200">
+            <div class="flex items-center space-x-4">
+              <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-blue-600 rounded-full flex items-center justify-center">
+                <span class="text-white text-xl font-bold">SG</span>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900">
+                  {article.author.name}
+                </h3>
+                <p class="text-gray-600">
+                  Publicado el {new Date(article.publishedDate).toLocaleDateString('es-ES', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })} • {article.readingTime} de lectura
+                </p>
+                <div class="flex flex-wrap gap-2 mt-2">
+                  {article.tags.map(tag => (
+                    <span class="px-2 py-1 bg-gray-100">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Related Articles -->
+    <section class="page-section bg-gray-50">
+      <div class="container-wide">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="text-3xl font-bold text-gray-900">
+            Artículos Relacionados
+          </h2>
+          <div class="grid md:grid-cols-3 gap-8">
+            {relatedArticles.map((relatedArticle, index) => (
+              <article class="bg-white">
+                <div class="h-48 bg-gradient-to-br from-gray-200 to-gray-300">
+                  <div class="text-center text-gray-600">
+                    <svg class="w-12 h-12 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                    </svg>
+                    <p class="text-sm font-medium">{relatedArticle.category}</p>
+                  </div>
+                </div>
+                <div class="p-6">
+                  <div class="mb-3">
+                    <span class="inline-block px-3 py-1 bg-gray-100">
+                      {relatedArticle.category}
+                    </span>
+                  </div>
+                  <h3 class="text-xl font-bold text-gray-900">
+                    {relatedArticle.title}
+                  </h3>
+                  <p class="text-gray-600">
+                    {relatedArticle.excerpt}
+                  </p>
+                  <a 
+                    href={`/blog/${relatedArticle.slug}`}
+                    class="text-blue-600"
+                  >
+                    Leer más →
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

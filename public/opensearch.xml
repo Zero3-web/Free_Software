@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <ShortName>Opensoftware</ShortName>
+  <Description>Search for free and open source software alternatives on Opensoftware</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <OutputEncoding>UTF-8</OutputEncoding>
+  <Image width="16" height="16" type="image/x-icon">https://opensoftware.com/favicon.ico</Image>
+  <Image width="64" height="64" type="image/png">https://opensoftware.com/favicon-64x64.png</Image>
+  <Url type="text/html" 
+       method="get" 
+       template="https://opensoftware.com/search?q={searchTerms}"/>
+  <Url type="application/x-suggestions+json" 
+       method="get" 
+       template="https://opensoftware.com/api/search-suggestions?q={searchTerms}"/>
+  <Url type="application/opensearchdescription+xml" 
+       rel="self" 
+       template="https://opensoftware.com/opensearch.xml"/>
+  <moz:SearchForm>https://opensoftware.com/search</moz:SearchForm>
+  <Query role="example" searchTerms="video editor"/>
+  <Developer>Opensoftware Team</Developer>
+  <Contact>info@opensoftware.com</Contact>
+  <Tags>software open source free alternatives</Tags>
+  <LongName>Opensoftware - Free Software Search</LongName>
+  <Attribution>Search results provided by Opensoftware</Attribution>
+  <SyndicationRight>open</SyndicationRight>
+  <AdultContent>false</AdultContent>
+  <Language>en-us</Language>
+  <Language>es-es</Language>
+  <Language>fr-fr</Language>
+  <Language>de-de</Language>
+</OpenSearchDescription>

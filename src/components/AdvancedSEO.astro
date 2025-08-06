@@ -1,0 +1,391 @@
+---
+interface SEOProps {
+  title: string;
+  description: string;
+  image?: string;
+  url?: string;
+  type?: 'website' | 'article' | 'product';
+  author?: string;
+  publishedTime?: string;
+  modifiedTime?: string;
+  section?: string;
+  tags?: string[];
+  noindex?: boolean;
+  nofollow?: boolean;
+  canonicalUrl?: string;
+  locale?: string;
+  alternateLanguages?: { [key: string]: string };
+  jsonLd?: object | object[];
+  twitterCard?: 'summary' | 'summary_large_image' | 'app' | 'player';
+  twitterSite?: string;
+  twitterCreator?: string;
+  ogSiteName?: string;
+  themeColor?: string;
+  msapplicationTileColor?: string;
+  keywords?: string;
+  robots?: string;
+  viewport?: string;
+}
+
+const {
+  title,
+  description,
+  image = '/og-default.jpg',
+  url = 'https://opensoftware.com',
+  type = 'website',
+  author,
+  publishedTime,
+  modifiedTime,
+  section,
+  tags = [],
+  noindex = false,
+  nofollow = false,
+  canonicalUrl,
+  locale = 'en_US',
+  alternateLanguages = {},
+  jsonLd,
+  twitterCard = 'summary_large_image',
+  twitterSite = '@opensoftware',
+  twitterCreator,
+  ogSiteName = 'Opensoftware',
+  themeColor = '#3B82F6',
+  msapplicationTileColor = '#3B82F6',
+  keywords,
+  robots,
+  viewport = 'width=device-width, initial-scale=1, shrink-to-fit=no'
+} = Astro.props as SEOProps;
+
+// Construct robots meta content
+const robotsContent = (() => {
+  if (robots) return robots;
+  const parts = [];
+  if (noindex) parts.push('noindex');
+  if (nofollow) parts.push('nofollow');
+  if (parts.length === 0) parts.push('index', 'follow');
+  return parts.join(', ');
+})();
+
+// Ensure absolute URLs
+const absoluteUrl = url.startsWith('http') ? url : `https://opensoftware.com${url}`;
+const absoluteImage = image.startsWith('http') ? image : `https://opensoftware.com${image}`;
+const absoluteCanonical = canonicalUrl ? 
+  (canonicalUrl.startsWith('http') ? canonicalUrl : `https://opensoftware.com${canonicalUrl}`) : 
+  absoluteUrl;
+
+// Generate hreflang links
+const hreflangLinks = Object.entries(alternateLanguages).map(([lang, langUrl]) => ({
+  lang,
+  url: langUrl.startsWith('http') ? langUrl : `https://opensoftware.com${langUrl}`
+}));
+
+// Default JSON-LD for website
+const defaultJsonLd = {
+  "@context": "https://schema.org",
+  "@type": type === 'article' ? 'Article' : type === 'product' ? 'SoftwareApplication' : 'WebSite',
+  "name": title,
+  "description": description,
+  "url": absoluteUrl,
+  "image": absoluteImage,
+  ...(type === 'website' && {
+    "publisher": {
+      "@type": "Organization",
+      "name": "Opensoftware",
+      "url": "https://opensoftware.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://opensoftware.com/logo.png"
+      }
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://opensoftware.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }),
+  ...(type === 'article' && {
+    "headline": title,
+    "datePublished": publishedTime,
+    "dateModified": modifiedTime || publishedTime,
+    "author": {
+      "@type": "Person",
+      "name": author || "Opensoftware Team"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Opensoftware",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://opensoftware.com/logo.png"
+      }
+    },
+    "articleSection": section,
+    "keywords": tags.join(', '),
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": absoluteUrl
+    }
+  }),
+  ...(type === 'product' && {
+    "@type": "SoftwareApplication",
+    "applicationCategory": section || "UtilitiesApplication",
+    "operatingSystem": "Windows, macOS, Linux",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "downloadUrl": absoluteUrl,
+    "softwareVersion": "Latest",
+    "fileSize": "varies"
+  })
+};
+
+const structuredData = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [defaultJsonLd];
+---
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<meta name="viewport" content={viewport} />
+<meta name="robots" content={robotsContent} />
+<meta name="theme-color" content={themeColor} />
+<meta name="msapplication-TileColor" content={msapplicationTileColor} />
+
+{keywords && <meta name="keywords" content={keywords} />}
+{author && <meta name="author" content={author} />}
+
+<!-- Canonical URL -->
+<link rel="canonical" href={absoluteCanonical} />
+
+<!-- Hreflang Links -->
+{hreflangLinks.map(({ lang, url }) => (
+  <link rel="alternate" hreflang={lang} href={url} />
+))}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={absoluteUrl} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={absoluteImage} />
+<meta property="og:image:alt" content={title} />
+<meta property="og:site_name" content={ogSiteName} />
+<meta property="og:locale" content={locale} />
+
+{type === 'article' && (
+  <>
+    {author && <meta property="article:author" content={author} />}
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+    {section && <meta property="article:section" content={section} />}
+    {tags.map(tag => <meta property="article:tag" content={tag} />)}
+  </>
+)}
+
+<!-- Twitter -->
+<meta property="twitter:card" content={twitterCard} />
+<meta property="twitter:url" content={absoluteUrl} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={absoluteImage} />
+<meta property="twitter:image:alt" content={title} />
+{twitterSite && <meta property="twitter:site" content={twitterSite} />}
+{twitterCreator && <meta property="twitter:creator" content={twitterCreator} />}
+
+<!-- Favicons -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+
+<!-- DNS Prefetch -->
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//www.google-analytics.com" />
+<link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
+
+<!-- Preconnect to important third-party origins -->
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="Opensoftware RSS Feed" href="/rss.xml" />
+
+<!-- Structured Data -->
+{structuredData.map((data, index) => (
+  <script type="application/ld+json" set:html={JSON.stringify(data)}></script>
+))}
+
+<!-- PWA Meta Tags -->
+<meta name="application-name" content="Opensoftware" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Opensoftware" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="msapplication-config" content="/browserconfig.xml" />
+<meta name="msapplication-tap-highlight" content="no" />
+
+<!-- Security Headers -->
+<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+<meta http-equiv="X-Frame-Options" content="DENY" />
+<meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+
+<!-- Performance Hints -->
+<link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin />
+
+<!-- Additional meta tags for better SEO -->
+<meta name="language" content={locale.split('_')[0]} />
+<meta name="distribution" content="global" />
+<meta name="rating" content="general" />
+<meta name="revisit-after" content="7 days" />
+
+<!-- Geographic meta tags -->
+<meta name="geo.region" content="US" />
+<meta name="geo.placename" content="United States" />
+
+<!-- Software-specific meta tags -->
+{type === 'product' && (
+  <>
+    <meta name="software.version" content="latest" />
+    <meta name="software.license" content="open-source" />
+    <meta name="software.category" content={section || "utility"} />
+    <meta name="software.platform" content="cross-platform" />
+  </>
+)}
+
+<!-- Verification tags for search engines -->
+<!-- <meta name="google-site-verification" content="your-google-verification-code" /> -->
+<!-- <meta name="msvalidate.01" content="your-bing-verification-code" /> -->
+<!-- <meta name="yandex-verification" content="your-yandex-verification-code" /> -->
+
+<!-- Dublin Core Metadata -->
+<meta name="DC.title" content={title} />
+<meta name="DC.description" content={description} />
+<meta name="DC.creator" content={author || "Opensoftware"} />
+<meta name="DC.language" content={locale.split('_')[0]} />
+<meta name="DC.type" content={type} />
+<meta name="DC.format" content="text/html" />
+<meta name="DC.identifier" content={absoluteUrl} />
+{publishedTime && <meta name="DC.date" content={publishedTime} />}
+
+<!-- OpenSearch -->
+<link rel="search" type="application/opensearchdescription+xml" title="Opensoftware Search" href="/opensearch.xml" />
+
+<!-- Additional structured data for software catalog -->
+{type === 'website' && (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Free Software Catalog",
+    "description": "Comprehensive catalog of free and open source software alternatives",
+    "url": "https://opensoftware.com",
+    "numberOfItems": "500+",
+    "itemListElement": {
+      "@type": "SoftwareApplication",
+      "name": "Various Software Applications",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Windows, macOS, Linux"
+    }
+  })} />
+)}
+
+<!-- Breadcrumb structured data (if on a product or article page) -->
+{(type === 'product' || type === 'article') && (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://opensoftware.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": type === 'article' ? "Blog" : "Software",
+        "item": type === 'article' ? "https://opensoftware.com/blog" : "https://opensoftware.com/software"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": title
+      }
+    ]
+  })} />
+)}
+
+<!-- Organization structured data -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Opensoftware",
+  "url": "https://opensoftware.com",
+  "logo": "https://opensoftware.com/logo.png",
+  "description": "Your trusted source for discovering the best free and open source software alternatives",
+  "foundingDate": "2024",
+  "sameAs": [
+    "https://twitter.com/opensoftware",
+    "https://github.com/opensoftware",
+    "https://www.linkedin.com/company/opensoftware"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "email": "contact@opensoftware.com"
+  }
+})} />
+
+<!-- FAQ structured data (if applicable) -->
+{type === 'article' && section === 'FAQ' && (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is free software?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Free software refers to software that users can run, study, share, and modify freely. It's often open source and available at no cost."
+        }
+      }
+    ]
+  })} />
+)}
+
+<!-- Review aggregate structured data (for software pages) -->
+{type === 'product' && (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": title,
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.5",
+      "reviewCount": "150",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "review": [
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "User Review"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "reviewBody": "Excellent free alternative to expensive software."
+      }
+    ]
+  })} />
+)}

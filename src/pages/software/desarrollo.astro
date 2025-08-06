@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import NotificationRoot from '../../components/NotificationRoot';
+import { products } from '../../data/products';
+
+const devProducts = products.filter(product => 
+  product.category === 'Desarrollo' || 
+  product.category === 'Programación' ||
+  product.tags?.includes('desarrollo') ||
+  product.tags?.includes('programacion') ||
+  product.tags?.includes('code') ||
+  product.tags?.includes('ide') ||
+  product.name.toLowerCase().includes('code') ||
+  product.name.toLowerCase().includes('studio') ||
+  product.name.toLowerCase().includes('editor')
+);
+---
+
+<Layout 
+  title="Development Software - Free Professional Tools"
+  description="Download the best free development tools: IDEs, code editors, frameworks and programming tools."
+>
+  <Header slot="header" />
+  <main>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-green-50 via-white to-teal-50 py-20">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            Software de <span class="bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">Desarrollo</span>
+          </h1>
+          <p class="text-xl md:text-2xl text-gray-600 mb-8">
+            Herramientas profesionales para desarrolladores: IDEs, editores, frameworks y utilidades de programación
+          </p>
+          <div class="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+            <span class="bg-white px-4 py-2 rounded-full shadow-sm">💻 IDEs modernos</span>
+            <span class="bg-white px-4 py-2 rounded-full shadow-sm">⚡ Editores rápidos</span>
+            <span class="bg-white px-4 py-2 rounded-full shadow-sm">🔧 Herramientas build</span>
+            <span class="bg-white px-4 py-2 rounded-full shadow-sm">🐛 Debugging avanzado</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="py-16 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">
+            Herramientas de Desarrollo Profesional
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Desde IDEs completos hasta editores ligeros, encuentra las mejores herramientas 
+            para tu flujo de trabajo de desarrollo.
+          </p>
+        </div>
+        
+        <NotificationRoot products={devProducts} page="grid" client:load />
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

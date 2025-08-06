@@ -1,0 +1,51 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<Layout 
+  title="Tools - Free Software"
+  description="We are working to offer you the best system tools and utilities."
+>
+  <Header slot="header" />
+  <main>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-green-50 via-white to-blue-50 min-h-screen flex items-center justify-center">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <div class="mb-8">
+            <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+              <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.78 0-2.678-2.153-1.415-3.414l5-5A2 2 0 009 9.172V5L8 4z"></path>
+              </svg>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+              <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Tools
+              </span>
+            </h1>
+            <div class="relative">
+              <p class="text-2xl md:text-3xl text-gray-700 font-medium mb-4">
+                We are working to offer you the best
+              </p>
+              <div class="flex items-center justify-center space-x-2">
+                <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                <div class="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                <div class="w-2 h-2 bg-pink-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+              </div>
+            </div>
+            
+            <div class="mt-12 p-6 bg-white/50 backdrop-blur-sm rounded-xl border border-gray-200 shadow-lg">
+              <p class="text-gray-600 text-lg leading-relaxed">
+                Our team is developing amazing system tools and utilities to help you optimize, 
+                clean, and maintain your computer. Stay tuned for updates!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
