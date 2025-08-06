@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Heart, Download, Home, Info, Mail, ChevronDown, FileText, Paintbrush, Video, Code, Zap, Shield, Monitor, Calculator } from 'lucide-react';
+import { X, Heart, Download, Home, Info, Mail, ChevronDown, FileText, Paintbrush, Video, Code, Zap, Shield, Monitor, Calculator } from 'lucide-react';
 import SearchBar from './SearchBar';
 import type { Product } from '../data/products';
 
